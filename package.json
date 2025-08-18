@@ -1,0 +1,114 @@
+{
+  "name": "wf-visualdb",
+  "displayName": "",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "wf-visualdb.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "wf-visualdb.fetchSchemas",
+        "title": "fetchSchemas"
+      },
+      {
+        "command": "wf-visualdb.dbAIsummary",
+        "title": "dbAIsummary"
+      },
+      {
+        "command": "wf-visualdb.dbAIwebview",
+        "title": "dbAIwebview"
+      },
+      {
+        "command": "wf-visualdb.deleteOriginFile",
+        "title": "Delete Origin Schemas File"
+      },
+      {
+        "command": "wf-visualdb.deleteMermaidFile",
+        "title": "Delete Mermaid File"
+      },
+      {
+        "command": "wf-visualdb.getRelationInfo",
+        "title": "Get Relation Info"
+      },
+      {
+        "command": "wf-visualdb.chainCommands",
+        "title": "Chain Commands Example"
+      },
+      {
+        "command": "wf-visualdb.changeMermaid",
+        "title": "Change Mermaid"
+      },
+      {
+        "command": "wf-visualdb.testMermaidExtraction",
+        "title": "Test Mermaid Extraction"
+      },
+      {
+        "command": "wf-visualdb.testRelationLineExtraction",
+        "title": "Test Relation Line Extraction"
+      },
+      {
+        "command": "wf-visualdb.deleteRelationFile",
+        "title": "Delete Relation File"
+      },
+      {
+        "command": "wf-visualdb.deleteAIAnalysisFiles",
+        "title": "Delete AI Analysis Files"
+      },
+      {
+        "command": "wf-visualdb.callAIapi",
+        "title": "Call AI API"
+      },
+      {
+        "command": "wf-visualdb.runAllCommands",
+        "title": "runAllCommands"
+      },
+      {
+        "command": "wf-visualdb.tableNames",
+        "title": "tableNames"
+      },
+      {
+        "command": "wf-visualdb.getSpInfo",
+        "title": "getSpInfo"
+      },
+      {
+        "command": "wf-visualdb.checkDbConnection",
+        "title": "Check Database Connection"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/mssql": "^9.1.7",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.32.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "mssql": "^11.0.1"
+  }
+}
