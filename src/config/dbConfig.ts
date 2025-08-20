@@ -36,6 +36,12 @@ export const dbConfig = {
     enableArithAbort: true,
     requestTimeout: 30000, // 30초
     connectionTimeout: 30000, // 30초
+    // 연결 안정성 향상을 위한 추가 설정
+    maxRetriesOnTries: 3,
+    packetSize: 4096,
+    useUTC: true,
+    // DNS 해석 문제 해결을 위한 설정
+    serverName: process.env.DB_HOST || 'localhost',
   }
 }
 

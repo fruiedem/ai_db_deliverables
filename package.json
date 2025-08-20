@@ -84,6 +84,26 @@
       {
         "command": "wf-visualdb.checkDbConnection",
         "title": "Check Database Connection"
+      },
+      {
+        "command": "wf-visualdb.testNetworkConnection",
+        "title": "Test Network Connection"
+      },
+      {
+        "command": "wf-visualdb.getTableList",
+        "title": "Get Table List"
+      },
+      {
+        "command": "wf-visualdb.analyzeSpWithAI",
+        "title": "Analyze Stored Procedures with AI"
+      },
+      {
+        "command": "wf-visualdb.analyzeTableAttributes",
+        "title": "Analyze Table Attributes"
+      },
+      {
+        "command": "wf-visualdb.generateTableMermaid",
+        "title": "Generate Table Mermaid ERD"
       }
     ]
   },
