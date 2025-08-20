@@ -1,0 +1,402 @@
+erDiagram
+    dbo.IF_SAP_NPD_BRAND {
+        BRANDCODE nvarchar PK
+        BRANDNAME nvarchar PK
+        BRANDTYPE nvarchar
+        DELFLAG nvarchar
+        SORT numeric
+        COMPANY nvarchar
+        CREATEDATE nvarchar
+        CREATEUSER nvarchar
+        UPDATEDATE nvarchar
+        UPDATEUSER nvarchar
+        INTERFACEFLAG char
+        INTERFACETYPE nvarchar
+    }
+
+erDiagram
+    dbo.VW_NPD_HolidayCalendar {
+        HOLIDAY_DATE   varchar
+        HOLIDAY_NAME   varchar
+    }
+
+erDiagram
+    dbo.VW_NPD_hreMaster {
+        EMP_ID varchar PK
+        NAME varchar
+        MOIN_ID varchar
+        MOIN_EMAIL varchar
+        DEPT_CODE varchar
+        JOB_CODE varchar
+        JOB_GRADE_NM varchar
+        JOB_DUTY varchar
+        JOB_DUTY_NM varchar
+    }
+
+erDiagram
+    dbo.VW_NPD_orgDeptMaster {
+        DEPT_CODE      varchar      PK
+        DEPT_NAME      varchar
+        PARENT_DEPT_CODE varchar      FK[dbo.VW_NPD_orgDeptMaster.DEPT_CODE]
+    }
+
+erDiagram
+    dbo.calendar {
+        target_dt varchar PK
+        date_description varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.code_master {
+        master_id int PK
+        group_cd varchar
+        group_name varchar
+        detail_cd varchar
+        detail_name varchar
+        is_active_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.dept_auth {
+        dept_cd varchar PK
+        dept_auth_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.dept_master {
+        DEPT_CODE      varchar PK
+        DEPT_NAME      varchar
+        PARENT_DEPT_CODE varchar FK
+        creator_id     varchar
+        created_at     datetime
+    }
+
+erDiagram
+    dbo.hr_master {
+        EMP_ID varchar PK
+        NAME varchar
+        MOIN_ID varchar
+        MOIN_EMAIL varchar
+        DEPT_CODE varchar
+        JOB_CODE varchar
+        JOB_GRADE_NM varchar
+        JOB_DUTY varchar
+        JOB_DUTY_NM varchar
+        STATE_CD varchar
+        creator_id varchar
+        created_at datetime
+    }
+
+erDiagram
+    dbo.login_control {
+        member_id varchar PK
+        access_yn char
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.mapper_line_brand {
+        line_cd varchar PK
+        brand_cd nvarchar PK
+    }
+
+erDiagram
+    dbo.project {
+        project_id int PK
+        project_type_cd varchar
+        line_type_cd varchar
+        line_cd varchar
+        brand_cd varchar
+        fml_brand_cd varchar
+        work_type_cd varchar
+        project_name varchar
+        planed_start_dt varchar
+        planed_end_dt varchar
+        forced_end_dt varchar
+        forced_end_reason varchar
+        planed_working_day int
+        is_active varchar
+        kick_off_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.project_member {
+        int project_id PK
+        varchar member_id PK
+        varchar status_cd
+        varchar creator_id
+        datetime created_at
+        varchar modifier_id
+        datetime modified_at
+    }
+
+erDiagram
+    dbo.project_owner {
+        project_id int PK
+        member_id varchar PK
+        is_active_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    @.@ as dbo.project_seq
+    dbo.project_seq {
+        yymm char PK
+        last_seq int
+    }
+
+erDiagram
+    dbo.shedlock {
+        varchar name PK
+        datetime2 lock_until
+        datetime2 locked_at
+        varchar locked_by FK
+    }
+
+erDiagram
+    TABLE dbo.sysdiagrams {
+        sysname name
+        int principal_id
+        int diagram_id PK
+        int version
+        varbinary definition
+    }
+
+erDiagram
+    TABLE dbo.task {
+        task_id INT PK
+        task_name VARCHAR
+        project_id INT
+        order_no FLOAT
+        status_cd VARCHAR
+        is_active_cd VARCHAR
+        is_output_need VARCHAR
+        creator_id VARCHAR
+        created_at DATETIME
+        modifier_id VARCHAR
+        modified_at DATETIME
+    }
+
+erDiagram
+    dbo.task_dependency {
+        int task_id PK
+        int project_id FK
+        int dependency_id FK
+        varchar dependency_cd
+        varchar creator_id
+        datetime created_at
+        varchar modifier_id
+        datetime modified_at
+    }
+
+erDiagram
+    dbo.task_finish_plan {
+        finish_plan_id int PK
+        project_id int
+        task_id int
+        plan_cd varchar
+        start_dt varchar
+        end_dt varchar
+        working_day int
+        delay_reason_cd varchar
+        delay_reason varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.task_output {
+        output_id int PK
+        task_id int
+        project_id int
+        file_name varchar
+        file_path varchar
+        output_comment varchar
+        is_active_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.task_owner {
+        task_id int PK
+        member_id varchar PK
+        is_active_cd varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
+    }
+
+erDiagram
+    dbo.use_email_log {
+        int id PK
+        nvarchar sender_address
+        nvarchar receiver_address_list
+        nvarchar cc_address_list
+        nvarchar bcc_address_list
+        nvarchar subject
+        nvarchar template_type
+        bit is_use_html
+        varchar status
+        nvarchar error_message
+        datetime2 sent_at
+    }
+
+erDiagram
+    dbo.use_log {
+        log_id bigint PK
+        caller_id varchar
+        severity int
+        project_id int
+        log_dt varchar
+        log_message varchar
+        proc_name varchar
+        proc_param varchar
+        result_cd int
+        result_msg varchar
+        created_at datetime
+    }
+
+erDiagram
+    dbo.use_privacy_log {
+        bigint privacy_logging_id PK
+        varchar emp_id
+        varchar client_ip
+        varchar request_url
+        varchar request_param
+        varchar session_id
+        datetime2 log_date
+    }
+
+=== Integrated Mermaid ERD ===
+All tables combined:
+```mermaid
+erDiagram
+    IF_SAP_NPD_BRAND {
+        string tableName
+        string schemaName
+    }
+    VW_NPD_HolidayCalendar {
+        string tableName
+        string schemaName
+    }
+    VW_NPD_hreMaster {
+        string tableName
+        string schemaName
+    }
+    VW_NPD_orgDeptMaster {
+        string tableName
+        string schemaName
+    }
+    calendar {
+        string tableName
+        string schemaName
+    }
+    code_master {
+        string tableName
+        string schemaName
+    }
+    dept_auth {
+        string tableName
+        string schemaName
+    }
+    dept_master {
+        string tableName
+        string schemaName
+    }
+    hr_master {
+        string tableName
+        string schemaName
+    }
+    login_control {
+        string tableName
+        string schemaName
+    }
+    mapper_line_brand {
+        string tableName
+        string schemaName
+    }
+    project {
+        string tableName
+        string schemaName
+    }
+    project_member {
+        string tableName
+        string schemaName
+    }
+    project_owner {
+        string tableName
+        string schemaName
+    }
+    project_seq {
+        string tableName
+        string schemaName
+    }
+    shedlock {
+        string tableName
+        string schemaName
+    }
+    sysdiagrams {
+        string tableName
+        string schemaName
+    }
+    task {
+        string tableName
+        string schemaName
+    }
+    task_dependency {
+        string tableName
+        string schemaName
+    }
+    task_finish_plan {
+        string tableName
+        string schemaName
+    }
+    task_output {
+        string tableName
+        string schemaName
+    }
+    task_owner {
+        string tableName
+        string schemaName
+    }
+    use_email_log {
+        string tableName
+        string schemaName
+    }
+    use_log {
+        string tableName
+        string schemaName
+    }
+    use_privacy_log {
+        string tableName
+        string schemaName
+    }
+```

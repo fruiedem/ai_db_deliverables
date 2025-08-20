@@ -1,0 +1,33 @@
+=== Database Table Information ===
+Generated at: 8/20/2025, 1:32:57 PM
+Server: 10.131.7.168:31433
+Database: WF_TMS
+Total tables: 25
+
+
+--- Schema: dbo (25 tables) ---
+calendar
+code_master
+dept_auth
+dept_master
+hr_master
+IF_SAP_NPD_BRAND
+login_control
+mapper_line_brand
+project
+project_member
+project_owner
+project_seq
+shedlock
+sysdiagrams
+task
+task_dependency
+task_finish_plan
+task_output
+task_owner
+use_email_log
+use_log
+use_privacy_log
+VW_NPD_HolidayCalendar
+VW_NPD_hreMaster
+VW_NPD_orgDeptMaster

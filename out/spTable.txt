@@ -1,0 +1,350 @@
+=== Stored Procedure Table Mapping ===
+Generated at: 8/20/2025, 1:32:57 PM
+Total procedures analyzed: 254
+
+=== JSON Format ===
+{
+  "IF_SAP_NPD_BRAND": [
+    "spGetMappingCodeLineToBrand",
+    "spGetCodeMasterForBrand"
+  ],
+  "VW_NPD_HolidayCalendar": [
+    "spBatchTransferHolidayInfo"
+  ],
+  "VW_NPD_hreMaster": [
+    "spBatchTransferHreMaster"
+  ],
+  "VW_NPD_orgDeptMaster": [
+    "spBatchTransferDeptMaster"
+  ],
+  "calendar": [
+    "spBatchTransferHolidayInfo",
+    "spGetHolidayInfo"
+  ],
+  "code_master": [
+    "spGetCodeMasterForLine",
+    "spInsertDeptAuth",
+    "spGetMappingCodeLineToBrand",
+    "spGetDashBoardDataForAll",
+    "spGetDashBoardDataForMonthly",
+    "spGetCodeMaster",
+    "spGetProjectList",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spInsertCodeMaster",
+    "spInsertProjectInfo",
+    "spInsertProjectMember",
+    "spInsertProjectTask",
+    "spUpdateCodeMaster",
+    "spUpdateTaskState"
+  ],
+  "dept_auth": [
+    "spGetMemberId",
+    "spInsertDeptAuth",
+    "spGetDeptAuth"
+  ],
+  "dept_master": [
+    "spBatchTransferDeptMaster",
+    "spGetDeptHierarchy",
+    "spGetDeptMember",
+    "spGetDashBoardDataForMember",
+    "spInsertDeptAuth",
+    "spGetProjectMember",
+    "spGetMemberInfo",
+    "spGetDeptCdByName",
+    "spGetDeptAuth",
+    "spGetProjectApplicants",
+    "spGetProjectOwnerList"
+  ],
+  "hr_master": [
+    "spBatchTransferHreMaster",
+    "spGetMemberId",
+    "spGetDeptMember",
+    "spGetDashBoardDataForMember",
+    "spGetProjectMember",
+    "spGetMemberInfo",
+    "spGetProjectHistory",
+    "spGetProjectApplicants",
+    "spGetProjectList",
+    "spGetProjectOwnerList",
+    "spGetProjectTemplateList",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spGetTaskOwnerList",
+    "spGetAccessStateForUser",
+    "spUpdateAccessStateForUser",
+    "spInsertProjectMember",
+    "spInsertProjectOwner",
+    "spIsAccsProject",
+    "spGetDelayedTaskList",
+    "spUpdateProjectApplicantsStatus",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask"
+  ],
+  "login_control": [
+    "spGetAccessStateForUser",
+    "spUpdateAccessStateForUser"
+  ],
+  "mapper_line_brand": [
+    "spGetMappingCodeLineToBrand",
+    "spInsertMappingCodeLineToBrand",
+    "spDeleteMappingCodeLineToBrand"
+  ],
+  "project": [
+    "spInsertProjectTaskTemplate",
+    "spDeleteOutputForTask",
+    "spGetDashBoardDataForMember",
+    "spGetDashBoardDataForAll",
+    "spGetDashBoardDataForMonthly",
+    "spDeleteTemplateProject",
+    "spGetProjectHistory",
+    "spGetProjectApplicants",
+    "spGetProjectList",
+    "spGetProjectOwnerList",
+    "spGetProjectProgressRate",
+    "spGetProjectTemplateList",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spGetTaskOwnerList",
+    "spInsertOutputForTask",
+    "spInsertProjectInfo",
+    "spInsertProjectMember",
+    "spInsertProjectOwner",
+    "spGenerateProjectId",
+    "spInsertProjectTask",
+    "spInsertTaskOwner",
+    "spIsAccsProject",
+    "spMakeTaskFinishPlanDate",
+    "spUpdateProjectMembers",
+    "spUpdateProjectOwners",
+    "spUpdateForcedFinishForProject",
+    "spGetDelayedTaskList",
+    "spUpdateProjectApplicantsStatus",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask",
+    "spUpdateTaskPlanDate",
+    "spUpdateProjectKickOff"
+  ],
+  "project_member": [
+    "spInsertProjectMemberByTemplate",
+    "spGetProjectMember",
+    "spGetProjectApplicants",
+    "spGetProjectList",
+    "spInsertProjectMember",
+    "spIsAccsProject",
+    "spUpdateProjectMembers",
+    "spUpdateProjectApplicantsStatus"
+  ],
+  "project_owner": [
+    "spGetProjectApplicants",
+    "spGetProjectList",
+    "spGetProjectOwnerList",
+    "spInsertProjectOwner",
+    "spIsAccsProject",
+    "spUpdateProjectOwners",
+    "spGetDelayedTaskList",
+    "spGetDelayedStartTaskList",
+    "spUpdateProjectKickOff"
+  ],
+  "project_seq": [
+    "spGenerateProjectId"
+  ],
+  "sysdiagrams": [
+    "sp_upgraddiagrams",
+    "sp_helpdiagrams",
+    "sp_helpdiagramdefinition",
+    "sp_creatediagram",
+    "sp_renamediagram",
+    "sp_alterdiagram",
+    "sp_dropdiagram"
+  ],
+  "task": [
+    "spInsertProjectTaskTemplate",
+    "spUpdateDateByShifting",
+    "spDeleteOutputForTask",
+    "spUpdateOutputForTask",
+    "spGetDashBoardDataForMember",
+    "spGetOutputListForTask",
+    "spGetProjectList",
+    "spGetProjectProgressRate",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spGetTaskOwnerList",
+    "spInsertOutputForTask",
+    "spInsertProjectInfo",
+    "spInsertProjectTask",
+    "spInsertTaskOwner",
+    "spMakeTaskFinishPlanDate",
+    "spDeleteTasks",
+    "spGetDelayedTaskList",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask",
+    "spUpdateTaskPlanDate",
+    "spUpdateTaskState"
+  ],
+  "task_dependency": [
+    "spInsertProjectTaskTemplate",
+    "spUpdateDateByShifting",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spInsertProjectInfo",
+    "spInsertProjectTask",
+    "spMakeTaskFinishPlanDate",
+    "spDeleteTasks",
+    "spUpdateTaskPlanDate",
+    "spUpdateTaskState",
+    "spUpdateTaskActualDate"
+  ],
+  "task_finish_plan": [
+    "spInsertProjectTaskTemplate",
+    "spUpdateDateByShifting",
+    "spGetDashBoardDataForAll",
+    "spGetDashBoardDataForMonthly",
+    "spGetProjectList",
+    "spGetProjectProgressRate",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spInsertProjectInfo",
+    "spInsertProjectTask",
+    "spMakeTaskFinishPlanDate",
+    "spDeleteTasks",
+    "spGetDelayedTaskList",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask",
+    "spUpdateTaskPlanDate",
+    "spUpdateTaskState",
+    "spUpdateProjectKickOff",
+    "spUpdateTaskActualDate"
+  ],
+  "task_output": [
+    "spDeleteOutputForTask",
+    "spUpdateOutputForTask",
+    "spGetOutputListForTask",
+    "spGetTaskList",
+    "spInsertOutputForTask"
+  ],
+  "task_owner": [
+    "spGetDashBoardDataForMember",
+    "spGetTaskInfoDetail",
+    "spGetTaskList",
+    "spGetTaskOwnerList",
+    "spInsertTaskOwner",
+    "spGetDelayedTaskList",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask"
+  ],
+  "use_log": [
+    "spBatchTransferHolidayInfo",
+    "spBatchTransferDeptMaster",
+    "spBatchTransferHreMaster",
+    "spInsertProjectTaskTemplate",
+    "spUpdateDateByShifting",
+    "spBatchUseLogCleansing",
+    "spDeleteOutputForTask",
+    "spUpdateOutputForTask",
+    "spDeleteTemplateProject",
+    "spGetProjectHistory",
+    "spInsertCodeMaster",
+    "spInsertOutputForTask",
+    "spInsertProjectInfo",
+    "spUpdateAccessStateForUser",
+    "spInsertProjectOwner",
+    "spInsertProjectTask",
+    "spDeleteTasks",
+    "spUpdateProjectMembers",
+    "spUpdateProjectOwners",
+    "spGetDelayedTaskList",
+    "spGetDelayedStartTaskList",
+    "spUpdateTask",
+    "spUpdateTaskPlanDate"
+  ]
+}
+
+=== Human Readable Format ===
+--- IF_SAP_NPD_BRAND ---
+Used by procedures: spGetMappingCodeLineToBrand, spGetCodeMasterForBrand
+Total procedures: 2
+
+--- VW_NPD_HolidayCalendar ---
+Used by procedures: spBatchTransferHolidayInfo
+Total procedures: 1
+
+--- VW_NPD_hreMaster ---
+Used by procedures: spBatchTransferHreMaster
+Total procedures: 1
+
+--- VW_NPD_orgDeptMaster ---
+Used by procedures: spBatchTransferDeptMaster
+Total procedures: 1
+
+--- calendar ---
+Used by procedures: spBatchTransferHolidayInfo, spGetHolidayInfo
+Total procedures: 2
+
+--- code_master ---
+Used by procedures: spGetCodeMasterForLine, spInsertDeptAuth, spGetMappingCodeLineToBrand, spGetDashBoardDataForAll, spGetDashBoardDataForMonthly, spGetCodeMaster, spGetProjectList, spGetTaskInfoDetail, spGetTaskList, spInsertCodeMaster, spInsertProjectInfo, spInsertProjectMember, spInsertProjectTask, spUpdateCodeMaster, spUpdateTaskState
+Total procedures: 15
+
+--- dept_auth ---
+Used by procedures: spGetMemberId, spInsertDeptAuth, spGetDeptAuth
+Total procedures: 3
+
+--- dept_master ---
+Used by procedures: spBatchTransferDeptMaster, spGetDeptHierarchy, spGetDeptMember, spGetDashBoardDataForMember, spInsertDeptAuth, spGetProjectMember, spGetMemberInfo, spGetDeptCdByName, spGetDeptAuth, spGetProjectApplicants, spGetProjectOwnerList
+Total procedures: 11
+
+--- hr_master ---
+Used by procedures: spBatchTransferHreMaster, spGetMemberId, spGetDeptMember, spGetDashBoardDataForMember, spGetProjectMember, spGetMemberInfo, spGetProjectHistory, spGetProjectApplicants, spGetProjectList, spGetProjectOwnerList, spGetProjectTemplateList, spGetTaskInfoDetail, spGetTaskList, spGetTaskOwnerList, spGetAccessStateForUser, spUpdateAccessStateForUser, spInsertProjectMember, spInsertProjectOwner, spIsAccsProject, spGetDelayedTaskList, spUpdateProjectApplicantsStatus, spGetDelayedStartTaskList, spUpdateTask
+Total procedures: 23
+
+--- login_control ---
+Used by procedures: spGetAccessStateForUser, spUpdateAccessStateForUser
+Total procedures: 2
+
+--- mapper_line_brand ---
+Used by procedures: spGetMappingCodeLineToBrand, spInsertMappingCodeLineToBrand, spDeleteMappingCodeLineToBrand
+Total procedures: 3
+
+--- project ---
+Used by procedures: spInsertProjectTaskTemplate, spDeleteOutputForTask, spGetDashBoardDataForMember, spGetDashBoardDataForAll, spGetDashBoardDataForMonthly, spDeleteTemplateProject, spGetProjectHistory, spGetProjectApplicants, spGetProjectList, spGetProjectOwnerList, spGetProjectProgressRate, spGetProjectTemplateList, spGetTaskInfoDetail, spGetTaskList, spGetTaskOwnerList, spInsertOutputForTask, spInsertProjectInfo, spInsertProjectMember, spInsertProjectOwner, spGenerateProjectId, spInsertProjectTask, spInsertTaskOwner, spIsAccsProject, spMakeTaskFinishPlanDate, spUpdateProjectMembers, spUpdateProjectOwners, spUpdateForcedFinishForProject, spGetDelayedTaskList, spUpdateProjectApplicantsStatus, spGetDelayedStartTaskList, spUpdateTask, spUpdateTaskPlanDate, spUpdateProjectKickOff
+Total procedures: 33
+
+--- project_member ---
+Used by procedures: spInsertProjectMemberByTemplate, spGetProjectMember, spGetProjectApplicants, spGetProjectList, spInsertProjectMember, spIsAccsProject, spUpdateProjectMembers, spUpdateProjectApplicantsStatus
+Total procedures: 8
+
+--- project_owner ---
+Used by procedures: spGetProjectApplicants, spGetProjectList, spGetProjectOwnerList, spInsertProjectOwner, spIsAccsProject, spUpdateProjectOwners, spGetDelayedTaskList, spGetDelayedStartTaskList, spUpdateProjectKickOff
+Total procedures: 9
+
+--- project_seq ---
+Used by procedures: spGenerateProjectId
+Total procedures: 1
+
+--- sysdiagrams ---
+Used by procedures: sp_upgraddiagrams, sp_helpdiagrams, sp_helpdiagramdefinition, sp_creatediagram, sp_renamediagram, sp_alterdiagram, sp_dropdiagram
+Total procedures: 7
+
+--- task ---
+Used by procedures: spInsertProjectTaskTemplate, spUpdateDateByShifting, spDeleteOutputForTask, spUpdateOutputForTask, spGetDashBoardDataForMember, spGetOutputListForTask, spGetProjectList, spGetProjectProgressRate, spGetTaskInfoDetail, spGetTaskList, spGetTaskOwnerList, spInsertOutputForTask, spInsertProjectInfo, spInsertProjectTask, spInsertTaskOwner, spMakeTaskFinishPlanDate, spDeleteTasks, spGetDelayedTaskList, spGetDelayedStartTaskList, spUpdateTask, spUpdateTaskPlanDate, spUpdateTaskState
+Total procedures: 22
+
+--- task_dependency ---
+Used by procedures: spInsertProjectTaskTemplate, spUpdateDateByShifting, spGetTaskInfoDetail, spGetTaskList, spInsertProjectInfo, spInsertProjectTask, spMakeTaskFinishPlanDate, spDeleteTasks, spUpdateTaskPlanDate, spUpdateTaskState, spUpdateTaskActualDate
+Total procedures: 11
+
+--- task_finish_plan ---
+Used by procedures: spInsertProjectTaskTemplate, spUpdateDateByShifting, spGetDashBoardDataForAll, spGetDashBoardDataForMonthly, spGetProjectList, spGetProjectProgressRate, spGetTaskInfoDetail, spGetTaskList, spInsertProjectInfo, spInsertProjectTask, spMakeTaskFinishPlanDate, spDeleteTasks, spGetDelayedTaskList, spGetDelayedStartTaskList, spUpdateTask, spUpdateTaskPlanDate, spUpdateTaskState, spUpdateProjectKickOff, spUpdateTaskActualDate
+Total procedures: 19
+
+--- task_output ---
+Used by procedures: spDeleteOutputForTask, spUpdateOutputForTask, spGetOutputListForTask, spGetTaskList, spInsertOutputForTask
+Total procedures: 5
+
+--- task_owner ---
+Used by procedures: spGetDashBoardDataForMember, spGetTaskInfoDetail, spGetTaskList, spGetTaskOwnerList, spInsertTaskOwner, spGetDelayedTaskList, spGetDelayedStartTaskList, spUpdateTask
+Total procedures: 8
+
+--- use_log ---
+Used by procedures: spBatchTransferHolidayInfo, spBatchTransferDeptMaster, spBatchTransferHreMaster, spInsertProjectTaskTemplate, spUpdateDateByShifting, spBatchUseLogCleansing, spDeleteOutputForTask, spUpdateOutputForTask, spDeleteTemplateProject, spGetProjectHistory, spInsertCodeMaster, spInsertOutputForTask, spInsertProjectInfo, spUpdateAccessStateForUser, spInsertProjectOwner, spInsertProjectTask, spDeleteTasks, spUpdateProjectMembers, spUpdateProjectOwners, spGetDelayedTaskList, spGetDelayedStartTaskList, spUpdateTask, spUpdateTaskPlanDate
+Total procedures: 23

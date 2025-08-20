@@ -1,0 +1,352 @@
+=== Database Table Attributes Analysis ===
+Generated at: 8/20/2025, 3:14:06 PM
+Server: 10.131.7.168:31433
+Database: WF_TMS
+Total columns analyzed: 196
+
+
+--- Schema: dbo, Table: IF_SAP_NPD_BRAND (12 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+BRANDCODE | nvarchar | PK
+BRANDNAME | nvarchar | PK
+BRANDTYPE | nvarchar | 
+DELFLAG | nvarchar | 
+SORT | numeric | 
+COMPANY | nvarchar | 
+CREATEDATE | nvarchar | 
+CREATEUSER | nvarchar | 
+UPDATEDATE | nvarchar | 
+UPDATEUSER | nvarchar | 
+INTERFACEFLAG | char | 
+INTERFACETYPE | nvarchar | 
+
+Summary: PK(2), FK(0), Nullable(8)
+
+--- Schema: dbo, Table: VW_NPD_HolidayCalendar (2 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+HOLIDAY_DATE | varchar | 
+HOLIDAY_NAME | varchar | 
+
+Summary: PK(0), FK(0), Nullable(1)
+
+--- Schema: dbo, Table: VW_NPD_hreMaster (9 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+EMP_ID | varchar | PK
+NAME | varchar | 
+MOIN_ID | varchar | 
+MOIN_EMAIL | varchar | 
+DEPT_CODE | varchar | 
+JOB_CODE | varchar | 
+JOB_GRADE_NM | varchar | 
+JOB_DUTY | varchar | 
+JOB_DUTY_NM | varchar | 
+
+Summary: PK(1), FK(0), Nullable(8)
+
+--- Schema: dbo, Table: VW_NPD_orgDeptMaster (3 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+DEPT_CODE | varchar | 
+DEPT_NAME | varchar | 
+PARENT_DEPT_CODE | varchar | 
+
+Summary: PK(0), FK(0), Nullable(3)
+
+--- Schema: dbo, Table: calendar (6 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+target_dt | varchar | PK
+date_description | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(3)
+
+--- Schema: dbo, Table: code_master (10 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+master_id | int | PK
+group_cd | varchar | 
+group_name | varchar | 
+detail_cd | varchar | 
+detail_name | varchar | 
+is_active_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(3)
+
+--- Schema: dbo, Table: dept_auth (6 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+dept_cd | varchar | PK
+dept_auth_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(3)
+
+--- Schema: dbo, Table: dept_master (5 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+DEPT_CODE | varchar | PK
+DEPT_NAME | varchar | 
+PARENT_DEPT_CODE | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(1)
+
+--- Schema: dbo, Table: hr_master (12 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+EMP_ID | varchar | PK
+NAME | varchar | 
+MOIN_ID | varchar | 
+MOIN_EMAIL | varchar | 
+DEPT_CODE | varchar | 
+JOB_CODE | varchar | 
+JOB_GRADE_NM | varchar | 
+JOB_DUTY | varchar | 
+JOB_DUTY_NM | varchar | 
+STATE_CD | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(6)
+
+--- Schema: dbo, Table: login_control (6 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+member_id | varchar | PK
+access_yn | char | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(2)
+
+--- Schema: dbo, Table: mapper_line_brand (2 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+line_cd | varchar | PK
+brand_cd | nvarchar | PK
+
+Summary: PK(2), FK(0), Nullable(0)
+
+--- Schema: dbo, Table: project (19 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+project_id | int | PK
+project_type_cd | varchar | 
+line_type_cd | varchar | 
+line_cd | varchar | 
+brand_cd | varchar | 
+fml_brand_cd | varchar | 
+work_type_cd | varchar | 
+project_name | varchar | 
+planed_start_dt | varchar | 
+planed_end_dt | varchar | 
+forced_end_dt | varchar | 
+forced_end_reason | varchar | 
+planed_working_day | int | 
+is_active | varchar | 
+kick_off_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(14)
+
+--- Schema: dbo, Table: project_member (7 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+project_id | int | PK
+member_id | varchar | PK
+status_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(2), FK(0), Nullable(2)
+
+--- Schema: dbo, Table: project_owner (7 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+project_id | int | PK
+member_id | varchar | PK
+is_active_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(2), FK(0), Nullable(2)
+
+--- Schema: dbo, Table: project_seq (2 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+yymm | char | PK
+last_seq | int | 
+
+Summary: PK(1), FK(0), Nullable(0)
+
+--- Schema: dbo, Table: shedlock (4 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+name | varchar | PK
+lock_until | datetime2 | 
+locked_at | datetime2 | 
+locked_by | varchar | 
+
+Summary: PK(1), FK(0), Nullable(0)
+
+--- Schema: dbo, Table: sysdiagrams (5 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+name | sysname | 
+principal_id | int | 
+diagram_id | int | PK
+version | int | 
+definition | varbinary | 
+
+Summary: PK(1), FK(0), Nullable(2)
+
+--- Schema: dbo, Table: task (11 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+task_id | int | PK
+task_name | varchar | 
+project_id | int | 
+order_no | float | 
+status_cd | varchar | 
+is_active_cd | varchar | 
+is_output_need | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(4)
+
+--- Schema: dbo, Table: task_dependency (8 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+task_id | int | 
+project_id | int | 
+dependency_id | int | 
+dependency_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(0), FK(0), Nullable(5)
+
+--- Schema: dbo, Table: task_finish_plan (13 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+finish_plan_id | int | PK
+project_id | int | 
+task_id | int | 
+plan_cd | varchar | 
+start_dt | varchar | 
+end_dt | varchar | 
+working_day | int | 
+delay_reason_cd | varchar | 
+delay_reason | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(8)
+
+--- Schema: dbo, Table: task_output (11 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+output_id | int | PK
+task_id | int | 
+project_id | int | 
+file_name | varchar | 
+file_path | varchar | 
+output_comment | varchar | 
+is_active_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(6)
+
+--- Schema: dbo, Table: task_owner (7 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+task_id | int | PK
+member_id | varchar | PK
+is_active_cd | varchar | 
+creator_id | varchar | 
+created_at | datetime | 
+modifier_id | varchar | 
+modified_at | datetime | 
+
+Summary: PK(2), FK(0), Nullable(2)
+
+--- Schema: dbo, Table: use_email_log (11 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+id | int | PK
+sender_address | nvarchar | 
+receiver_address_list | nvarchar | 
+cc_address_list | nvarchar | 
+bcc_address_list | nvarchar | 
+subject | nvarchar | 
+template_type | nvarchar | 
+is_use_html | bit | 
+status | varchar | 
+error_message | nvarchar | 
+sent_at | datetime2 | 
+
+Summary: PK(1), FK(0), Nullable(6)
+
+--- Schema: dbo, Table: use_log (11 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+log_id | bigint | PK
+caller_id | varchar | 
+severity | int | 
+project_id | int | 
+log_dt | varchar | 
+log_message | varchar | 
+proc_name | varchar | 
+proc_param | varchar | 
+result_cd | int | 
+result_msg | varchar | 
+created_at | datetime | 
+
+Summary: PK(1), FK(0), Nullable(3)
+
+--- Schema: dbo, Table: use_privacy_log (7 columns) ---
+Column Name | Data Type | Key Type
+----------------------------------
+privacy_logging_id | bigint | PK
+emp_id | varchar | 
+client_ip | varchar | 
+request_url | varchar | 
+request_param | varchar | 
+session_id | varchar | 
+log_date | datetime2 | 
+
+Summary: PK(1), FK(0), Nullable(6)
