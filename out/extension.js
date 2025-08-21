@@ -37,6 +37,8 @@ exports.activate = activate;
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = __importStar(require("vscode"));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const mssql = __importStar(require("mssql"));
 const dbConfig_1 = __importStar(require("./config/dbConfig"));
 /******************** 기본 설정 및 변수 정의 ********************/
@@ -47,6 +49,585 @@ if (!(0, dbConfig_1.validateDbConfig)()) {
 }
 // SP 리스트 : <map>
 const spArray = [];
+// 웹뷰 패널 관리
+let currentPanel = undefined;
+/******************** 웹뷰 기능 정의 ********************/
+// 테이블 분석 웹뷰 표시 함수
+async function showTableAnalysisWebview(tableName) {
+    const column = vscode.ViewColumn.One;
+    if (currentPanel) {
+        currentPanel.reveal(column);
+    }
+    else {
+        currentPanel = vscode.window.createWebviewPanel('tableAnalysis', '테이블 분석 결과', column, {
+            enableScripts: true,
+            retainContextWhenHidden: true
+        });
+        currentPanel.onDidDispose(() => {
+            currentPanel = undefined;
+        }, null, []);
+    }
+    // 웹뷰 HTML 내용 생성 (모든 테이블 정보 표시)
+    const htmlContent = await generateTableAnalysisHTML();
+    currentPanel.webview.html = htmlContent;
+    // 웹뷰에서 메시지 수신 처리
+    currentPanel.webview.onDidReceiveMessage(async (message) => {
+        switch (message.command) {
+            case 'refresh':
+                vscode.window.showInformationMessage('새로고침 요청됨');
+                const refreshedHtml = await generateTableAnalysisHTML();
+                if (currentPanel) {
+                    currentPanel.webview.html = refreshedHtml;
+                }
+                break;
+            case 'showTableAnalysis':
+                // 테이블 분석 요청은 웹뷰 내에서 JavaScript로 처리됨
+                console.log(`테이블 분석 요청: ${message.tableName}`);
+                break;
+        }
+    }, undefined, []);
+}
+// 테이블 분석 HTML 생성 함수
+async function generateTableAnalysisHTML(tableName) {
+    try {
+        // spTable.txt와 spAIAnalysis.txt 파일 읽기
+        const spTablePath = path.join(__dirname, '..', 'out', 'spTable.txt');
+        const spAIAnalysisPath = path.join(__dirname, '..', 'out', 'spAIAnalysis.txt');
+        console.log('=== 웹뷰 HTML 생성 시작 ===');
+        console.log('spTablePath:', spTablePath);
+        console.log('spAIAnalysisPath:', spAIAnalysisPath);
+        let spTableContent = '';
+        let spAIAnalysisContent = '';
+        if (fs.existsSync(spTablePath)) {
+            spTableContent = fs.readFileSync(spTablePath, 'utf8');
+            console.log(`spTable.txt 파일 읽기 성공: ${spTableContent.length} 문자`);
+        }
+        else {
+            console.error('spTable.txt 파일을 찾을 수 없습니다:', spTablePath);
+        }
+        if (fs.existsSync(spAIAnalysisPath)) {
+            spAIAnalysisContent = fs.readFileSync(spAIAnalysisPath, 'utf8');
+            console.log(`spAIAnalysis.txt 파일 읽기 성공: ${spAIAnalysisContent.length} 문자`);
+        }
+        else {
+            console.error('spAIAnalysis.txt 파일을 찾을 수 없습니다:', spAIAnalysisPath);
+        }
+        // 테이블별 저장 프로시저 매핑 파싱
+        console.log('=== 파싱 시작 ===');
+        const tableProcedureMap = parseSpTableContent(spTableContent);
+        // 저장 프로시저 분석 내용 파싱
+        const procedureAnalysisMap = parseSpAIAnalysisContent(spAIAnalysisContent);
+        console.log('=== 파싱 결과 요약 ===');
+        console.log(`테이블-프로시저 매핑: ${Object.keys(tableProcedureMap).length}개 테이블`);
+        console.log(`프로시저-분석 매핑: ${Object.keys(procedureAnalysisMap).length}개 프로시저`);
+        // 모든 테이블과 프로시저 매핑 정보 로깅
+        console.log('=== 전체 테이블-프로시저 매핑 정보 ===');
+        for (const [tableNameKey, procedures] of Object.entries(tableProcedureMap)) {
+            console.log(`테이블 "${tableNameKey}": ${procedures.length}개 프로시저`);
+            procedures.forEach(procName => {
+                const hasAnalysis = procedureAnalysisMap[procName] ? '있음' : '없음';
+                console.log(`  - ${procName}: 분석 내용 ${hasAnalysis}`);
+            });
+        }
+        // HTML 생성
+        const html = `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테이블 분석 결과</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #007acc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .table-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .table-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .table-card:hover {
+            border-color: #007acc;
+            background: #e3f2fd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+        }
+        .table-card.selected {
+            border-color: #007acc;
+            background: #e3f2fd;
+        }
+        .table-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #007acc;
+            margin-bottom: 8px;
+        }
+        .procedure-count {
+            font-size: 14px;
+            color: #666;
+        }
+        .analysis-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .analysis-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007acc;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 10px;
+        }
+        .procedure-analysis {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .procedure-analysis:hover {
+            border-color: #007acc;
+            background: #f8f9fa;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,123,255,0.1);
+        }
+        .procedure-name {
+            font-weight: bold;
+            color: #495057;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .procedure-name .expand-icon {
+            font-size: 12px;
+            color: #007acc;
+            transition: transform 0.2s ease;
+        }
+        .procedure-name.expanded .expand-icon {
+            transform: rotate(90deg);
+        }
+        .analysis-text {
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .analysis-text.expanded {
+            max-height: 1000px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        .procedure-summary {
+            color: #666;
+            font-style: italic;
+            font-size: 14px;
+        }
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        .refresh-btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .refresh-btn:hover {
+            background: #005a9e;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>데이터베이스 테이블 분석 결과</h1>
+        </div>
+        <div class="content">
+            <button class="refresh-btn" onclick="refreshData()"> 새로고침</button>
+            <input type="text" class="search-box" placeholder="테이블명으로 검색..." onkeyup="filterTables(this.value)">
+            
+            <div class="table-list" id="tableList">
+                ${generateTableCards(tableProcedureMap)}
+            </div>
+            
+            <div id="analysisContent" class="analysis-content" style="display: none;">
+                <div class="analysis-title" id="analysisTitle"></div>
+                <div id="analysisDetails"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        const tableProcedureMap = ${JSON.stringify(tableProcedureMap)};
+        const procedureAnalysisMap = ${JSON.stringify(procedureAnalysisMap)};
+        
+        // 디버깅용 로그
+        console.log('테이블-프로시저 매핑:', tableProcedureMap);
+        console.log('프로시저 분석 매핑:', procedureAnalysisMap);
+        console.log('파싱된 프로시저 개수:', Object.keys(procedureAnalysisMap).length);
+        
+        function showTableAnalysis(tableName) {
+            // 모든 테이블 카드에서 선택 상태 제거
+            document.querySelectorAll('.table-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 선택된 테이블 카드에 선택 상태 추가
+            const selectedCard = document.querySelector(\`[data-table="\${tableName}"]\`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+            
+            // 분석 내용 표시
+            const analysisContent = document.getElementById('analysisContent');
+            const analysisTitle = document.getElementById('analysisTitle');
+            const analysisDetails = document.getElementById('analysisDetails');
+            
+            analysisTitle.textContent = \` \${tableName} 테이블 분석 결과\`;
+            
+            const procedures = tableProcedureMap[tableName] || [];
+            if (procedures.length > 0) {
+                let detailsHtml = \`<p><strong>사용하는 저장 프로시저 (\${procedures.length}개):</strong></p>\`;
+                
+                procedures.forEach(procName => {
+                    const analysis = procedureAnalysisMap[procName];
+                    console.log(\`프로시저 \${procName} 매핑 확인: \${analysis ? '있음' : '없음'}\`);
+                    
+                    if (analysis) {
+                        // 분석 내용의 첫 100자만 미리보기로 표시
+                        const summary = analysis.length > 100 ? analysis.substring(0, 100) + '...' : analysis;
+                        detailsHtml += \`
+                            <div class="procedure-analysis" onclick="toggleProcedureAnalysis('\${procName}')">
+                                <div class="procedure-name" id="proc-name-\${procName.replace(/[^a-zA-Z0-9]/g, '_')}">
+                                    🔧 \${procName}
+                                    <span class="expand-icon">▶</span>
+                                </div>
+                                <div class="procedure-summary">\${summary}</div>
+                                <div class="analysis-text" id="proc-analysis-\${procName.replace(/[^a-zA-Z0-9]/g, '_')}">\${analysis}</div>
+                            </div>
+                        \`;
+                    } else {
+                        // 매핑 실패 시 디버깅 정보 추가
+                        detailsHtml += \`
+                            <div class="procedure-analysis">
+                                <div class="procedure-name">
+                                    🔧 \${procName}
+                                </div>
+                                <div class="procedure-summary">
+                                    분석 내용이 없습니다. (매핑 실패)
+                                    <br><small>사용 가능한 프로시저: \${Object.keys(procedureAnalysisMap).join(', ')}</small>
+                                </div>
+                            </div>
+                        \`;
+                    }
+                });
+                
+                analysisDetails.innerHTML = detailsHtml;
+            } else {
+                analysisDetails.innerHTML = '<div class="no-data">이 테이블을 사용하는 저장 프로시저가 없습니다.</div>';
+            }
+            
+            analysisContent.style.display = 'block';
+            
+            // VS Code에 메시지 전송
+            vscode.postMessage({
+                command: 'showTableAnalysis',
+                tableName: tableName
+            });
+        }
+        
+        function filterTables(searchTerm) {
+            const tableCards = document.querySelectorAll('.table-card');
+            const searchLower = searchTerm.toLowerCase();
+            
+            tableCards.forEach(card => {
+                const tableName = card.getAttribute('data-table');
+                if (tableName && tableName.toLowerCase().includes(searchLower)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function refreshData() {
+            vscode.postMessage({ command: 'refresh' });
+        }
+        
+        function toggleProcedureAnalysis(procName) {
+            const safeProcName = procName.replace(/[^a-zA-Z0-9]/g, '_');
+            const procNameElement = document.getElementById(\`proc-name-\${safeProcName}\`);
+            const analysisElement = document.getElementById(\`proc-analysis-\${safeProcName}\`);
+            
+            if (procNameElement && analysisElement) {
+                const isExpanded = procNameElement.classList.contains('expanded');
+                
+                if (isExpanded) {
+                    // 접기
+                    procNameElement.classList.remove('expanded');
+                    analysisElement.classList.remove('expanded');
+                } else {
+                    // 펼치기
+                    procNameElement.classList.add('expanded');
+                    analysisElement.classList.add('expanded');
+                }
+            }
+        }
+        
+        // 페이지 로드 시 첫 번째 테이블 분석 표시 (선택사항)
+        window.addEventListener('load', () => {
+            const firstTable = Object.keys(tableProcedureMap)[0];
+            if (firstTable) {
+                showTableAnalysis(firstTable);
+            }
+        });
+    </script>
+</body>
+</html>`;
+        return html;
+    }
+    catch (error) {
+        console.error('HTML 생성 중 오류:', error);
+        return `
+<!DOCTYPE html>
+<html>
+<head><title>오류</title></head>
+<body>
+    <h1>오류가 발생했습니다</h1>
+    <p>${error}</p>
+</body>
+</html>`;
+    }
+}
+// spTable.txt 내용 파싱 함수
+function parseSpTableContent(content) {
+    const tableProcedureMap = {};
+    try {
+        console.log('spTable.txt 파싱 시작...');
+        console.log(`파일 크기: ${content.length} 문자`);
+        // JSON 형식 파싱 시도
+        const jsonStartIndex = content.indexOf('=== JSON Format ===');
+        const jsonEndIndex = content.indexOf('=== Human Readable Format ===');
+        console.log(`JSON 시작 인덱스: ${jsonStartIndex}`);
+        console.log(`JSON 끝 인덱스: ${jsonEndIndex}`);
+        if (jsonStartIndex !== -1) {
+            let jsonContent = '';
+            if (jsonEndIndex !== -1) {
+                // JSON Format과 Human Readable Format 사이의 내용 추출
+                jsonContent = content.substring(jsonStartIndex, jsonEndIndex);
+            }
+            else {
+                // JSON Format부터 끝까지 추출
+                jsonContent = content.substring(jsonStartIndex);
+            }
+            console.log(`JSON 콘텐츠 길이: ${jsonContent.length}`);
+            // JSON 객체 부분만 추출 (중괄호 {} 사이의 내용)
+            const jsonStart = jsonContent.indexOf('{');
+            const jsonEnd = jsonContent.lastIndexOf('}');
+            console.log(`JSON 객체 시작: ${jsonStart}, 끝: ${jsonEnd}`);
+            if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+                const jsonString = jsonContent.substring(jsonStart, jsonEnd + 1);
+                console.log(`JSON 문자열 길이: ${jsonString.length}`);
+                console.log(`JSON 문자열 미리보기: ${jsonString.substring(0, 200)}...`);
+                try {
+                    const parsedJson = JSON.parse(jsonString);
+                    console.log(`JSON 파싱 성공! 키 개수: ${Object.keys(parsedJson).length}`);
+                    // JSON 객체의 키-값 쌍을 tableProcedureMap에 복사
+                    for (const [tableName, procedures] of Object.entries(parsedJson)) {
+                        if (Array.isArray(procedures)) {
+                            tableProcedureMap[tableName] = procedures;
+                            console.log(`테이블 "${tableName}": ${procedures.length}개 프로시저 매핑`);
+                        }
+                    }
+                    console.log(`JSON 파싱 성공: ${Object.keys(tableProcedureMap).length}개 테이블 발견`);
+                    console.log('파싱된 테이블 목록:', Object.keys(tableProcedureMap));
+                    return tableProcedureMap;
+                }
+                catch (jsonError) {
+                    console.error('JSON 파싱 에러:', jsonError);
+                }
+            }
+            else {
+                console.log('JSON 객체 경계를 찾을 수 없음');
+            }
+        }
+        else {
+            console.log('JSON Format 섹션을 찾을 수 없음');
+        }
+        // JSON 파싱 실패 시 기존 Human Readable Format 파싱 방식 사용
+        console.log('JSON 파싱 실패, Human Readable Format으로 파싱 시도');
+        const lines = content.split('\n');
+        let currentTable = '';
+        for (const line of lines) {
+            if (line.startsWith('--- ') && line.endsWith(' ---')) {
+                currentTable = line.replace(/^--- | ---$/g, '').trim();
+                tableProcedureMap[currentTable] = [];
+                console.log(`Human readable 테이블 발견: ${currentTable}`);
+            }
+            else if (line.startsWith('Used by procedures:') && currentTable) {
+                const procedures = line.replace('Used by procedures:', '').trim().split(',');
+                tableProcedureMap[currentTable] = procedures.map(proc => proc.trim()).filter(proc => proc.length > 0);
+                console.log(`테이블 "${currentTable}": ${tableProcedureMap[currentTable].length}개 프로시저`);
+            }
+        }
+        console.log(`Human readable 파싱 결과: ${Object.keys(tableProcedureMap).length}개 테이블`);
+    }
+    catch (error) {
+        console.error('spTable.txt 파싱 오류:', error);
+    }
+    return tableProcedureMap;
+}
+// spAIAnalysis.txt 내용 파싱 함수
+function parseSpAIAnalysisContent(content) {
+    const procedureAnalysisMap = {};
+    try {
+        console.log('=== spAIAnalysis.txt 파싱 시작 ===');
+        console.log(`파일 크기: ${content.length} 문자`);
+        // 파일 내용의 처음 200자와 끝 200자 확인
+        console.log(`파일 시작 부분: "${content.substring(0, 200)}"`);
+        console.log(`파일 끝 부분: "${content.substring(content.length - 200)}"`);
+        const lines = content.split('\n');
+        console.log(`총 라인 수: ${lines.length}`);
+        let currentProcedure = '';
+        let analysisText = '';
+        let procedureCount = 0;
+        // 정규식을 사용하여 더 정확한 패턴 매칭
+        const procedurePattern = /^---\*\s*(.+?)\s*\*---$/;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const trimmedLine = line.trim();
+            // ---* 프로시저명 *--- 형태의 줄을 찾아서 프로시저명 추출
+            const match = trimmedLine.match(procedurePattern);
+            if (match) {
+                // 이전 프로시저 분석 저장
+                if (currentProcedure && analysisText.trim()) {
+                    procedureAnalysisMap[currentProcedure] = analysisText.trim();
+                    console.log(`[${procedureCount}] 파싱 완료: ${currentProcedure} - ${analysisText.trim().substring(0, 50)}...`);
+                }
+                // 새 프로시저 시작
+                currentProcedure = match[1].trim(); // 정규식 그룹에서 프로시저명 추출
+                analysisText = '';
+                procedureCount++;
+                console.log(`[${procedureCount}] 새 프로시저 시작: ${currentProcedure}`);
+                console.log(`[${procedureCount}] 원본 라인: "${trimmedLine}"`);
+                console.log(`[${procedureCount}] 추출된 프로시저명: "${currentProcedure}"`);
+            }
+            else if (currentProcedure && trimmedLine) {
+                // 프로시저명이 설정된 후에는 모든 내용을 분석 텍스트로 수집
+                // 다음 프로시저 구분자(---* *---)가 나올 때까지 모든 내용 포함
+                analysisText += line + '\n';
+            }
+        }
+        // 마지막 프로시저 분석 저장
+        if (currentProcedure && analysisText.trim()) {
+            procedureAnalysisMap[currentProcedure] = analysisText.trim();
+            console.log(`[마지막] 파싱 완료: ${currentProcedure} - ${analysisText.trim().substring(0, 50)}...`);
+        }
+        console.log(`=== 파싱 결과 요약 ===`);
+        console.log(`총 ${Object.keys(procedureAnalysisMap).length}개 프로시저 분석 내용 파싱 완료`);
+        console.log('파싱된 프로시저 목록:', Object.keys(procedureAnalysisMap));
+        // 각 프로시저별 매핑 상태 상세 출력
+        for (const [procName, analysis] of Object.entries(procedureAnalysisMap)) {
+            console.log(`매핑 확인: ${procName} -> ${analysis.substring(0, 100)}...`);
+        }
+        // 파싱 실패한 경우 디버깅 정보
+        if (Object.keys(procedureAnalysisMap).length === 0) {
+            console.log('=== 파싱 실패 디버깅 ===');
+            console.log('구분자 패턴 검색 결과:');
+            const delimiterLines = lines.filter(line => line.includes('---*') || line.includes('*---'));
+            console.log('구분자 포함 라인들:', delimiterLines);
+            // 정규식 패턴 테스트
+            console.log('정규식 패턴 테스트:');
+            lines.forEach((line, index) => {
+                const match = line.trim().match(procedurePattern);
+                if (match) {
+                    console.log(`라인 ${index + 1}: "${line}" -> 매치: "${match[1]}"`);
+                }
+            });
+        }
+    }
+    catch (error) {
+        console.error('spAIAnalysis.txt 파싱 오류:', error);
+    }
+    return procedureAnalysisMap;
+}
+// 테이블 카드 HTML 생성 함수
+function generateTableCards(tableProcedureMap) {
+    const tables = Object.keys(tableProcedureMap);
+    if (tables.length === 0) {
+        return '<div class="no-data">테이블 정보를 찾을 수 없습니다.</div>';
+    }
+    return tables.map(tableName => {
+        const procedures = tableProcedureMap[tableName];
+        const procedureCount = procedures ? procedures.length : 0;
+        return `
+      <div class="table-card" data-table="${tableName}" onclick="showTableAnalysis('${tableName}')">
+        <div class="table-name">${tableName}</div>
+        <div class="procedure-count">${procedureCount}개 프로시저 사용</div>
+      </div>
+    `;
+    }).join('');
+}
 /******************** VSCode Commands 정의 ********************/
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -65,6 +646,12 @@ function activate(context) {
         vscode.window.showInformationMessage('Hello World from visualdb!');
     });
     context.subscriptions.push(helloWorld);
+    // 웹뷰 호출 커맨드 추가
+    const showTableAnalysisWebviewCommand = vscode.commands.registerCommand('wf-visualdb.showTableAnalysisWebview', async () => {
+        // 테이블 선택 없이 바로 모든 테이블과 프로시저 매핑 정보를 보여주는 웹뷰 실행
+        await showTableAnalysisWebview();
+    });
+    context.subscriptions.push(showTableAnalysisWebviewCommand);
     // stored procedure 정보 가져오는 커맨드
     const SpInfo = vscode.commands.registerCommand('wf-visualdb.getSpInfo', async () => {
         console.log('getSpInfo');
@@ -103,6 +690,12 @@ function activate(context) {
         await generateTableMermaidWithAI();
     });
     context.subscriptions.push(generateTableMermaidCommand);
+    // 테이블 분석 웹뷰 표시 커맨드
+    const showTableAnalysisCommand = vscode.commands.registerCommand('wf-visualdb.showTableAnalysis', async () => {
+        console.log('showTableAnalysis');
+        await showTableAnalysisWebview();
+    });
+    context.subscriptions.push(showTableAnalysisCommand);
 }
 /******************** 기능 정의 ********************/
 // 데이터베이스 연결 상태 확인
@@ -805,7 +1398,7 @@ async function analyzeStoredProceduresWithAI() {
                             "Authorization": `Bearer ${token}`
                         },
                         body: JSON.stringify({
-                            query: `아래 프로시저 코드를 최대한 요약해서 정리해줘. ${proc.definition}`,
+                            query: `아래 프로시저 코드의 주요 로직을 요약 정리해줘.(sql 코드정리와 sql 예시코드 제외) ${proc.definition}`,
                             history: ""
                         }),
                     });
@@ -865,21 +1458,12 @@ async function analyzeStoredProceduresWithAI() {
                 }
                 // 분석 결과 파일 생성
                 const analysisContent = [];
-                analysisContent.push('=== AI Analysis of Stored Procedures ===');
-                analysisContent.push(`Generated at: ${new Date().toLocaleString()}`);
-                analysisContent.push(`Total procedures analyzed: ${analysisResults.length}`);
-                analysisContent.push('');
                 for (const result of analysisResults) {
                     analysisContent.push(`--- ${result.procedureName} ---`);
-                    analysisContent.push(`Analysis Time: ${result.timestamp}`);
-                    analysisContent.push(`AI Analysis:`);
                     analysisContent.push(result.analysis);
                     analysisContent.push('');
                 }
                 fs.writeFileSync(analysisFilePath, analysisContent.join('\n'), 'utf8');
-                outputChannel.appendLine(`=== Analysis Complete ===`);
-                outputChannel.appendLine(`Analysis results saved to: ${analysisFilePath}`);
-                outputChannel.appendLine(`Total procedures analyzed: ${analysisResults.length}`);
                 vscode.window.showInformationMessage(`AI 분석 완료! ${analysisResults.length}개 프로시저 분석 결과가 저장되었습니다.`);
             }
             catch (fileErr) {

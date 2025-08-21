@@ -104,6 +104,14 @@
       {
         "command": "wf-visualdb.generateTableMermaid",
         "title": "Generate Table Mermaid ERD"
+      },
+      {
+        "command": "wf-visualdb.showTableAnalysis",
+        "title": "Show Table Analysis Webview"
+      },
+      {
+        "command": "wf-visualdb.showTableAnalysisWebview",
+        "title": "Show Table Analysis Webview with Table Name"
       }
     ]
   },

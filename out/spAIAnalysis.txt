@@ -1,4 +1,4 @@
---- spBatchTransferHolidayInfo ---
+---* spBatchTransferHolidayInfo *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저의 주요 목적
@@ -33,7 +33,7 @@
 
 이 프로시저는 매년 10년간의 휴일 데이터를 한 번에 동기화하도록 설계되었으며, IS팀의 요청에 따라 아웃풋 파라미터를 제거하고 트랜잭션 안정성을 강화한 특징이 있습니다.
 
---- spBatchTransferDeptMaster ---
+---* spBatchTransferDeptMaster *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다:
 
 ### 프로시저의 주요 목적:
@@ -66,7 +66,7 @@
 - **일관성 유지**: 트랜잭션을 통해 데이터 동기화 과정에서 발생할 수 있는 오류를 방지하고, 성공/실패 결과를 로깅하여 추적을 용이하게 합니다.
 - **스케줄링**: 프로시저 실행 예시 (`EXEC [dbo].[spTransferDeptMaster]`)를 통해 주기적인 동기화 작업으로 사용됩니다.
 
---- spBatchTransferHreMaster ---
+---* spBatchTransferHreMaster *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spBatchTransferHreMaster]
@@ -109,7 +109,7 @@
 **주요 목적:**
 - `dbo.hr_master` 테이블을 `dbo.VW_NPD_hreMaster` 테이블과 동기화하여 회원 정보를 업데이트하고, 변경 사항을 로그에 기록하는 프로시저입니다.
 
---- spInsertProjectMemberByTemplate ---
+---* spInsertProjectMemberByTemplate *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: spInsertProjectMemberByTemplate
@@ -175,7 +175,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 대량의 담당자 데이터를 안전하게 삽입하는 데 유용하며, 이미 존재하는 멤버는 자동으로 필터링됩니다.
 
---- spInsertProjectTaskTemplate ---
+---* spInsertProjectTaskTemplate *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저의 주요 목적
@@ -217,7 +217,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 프로젝트 템플릿을 기반으로 일괄적으로 태스크를 생성하는 기능을 수행하며, 의존성 관계와 완료 계획을 자동으로 설정하는 역할을 합니다.
 
---- spUpdateDateByShifting ---
+---* spUpdateDateByShifting *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저의 주요 목적
@@ -258,7 +258,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 특정 프로젝트와 플랜에 대해 일정을 보정하는 작업을 수행하며, 의존성 규칙에 따라 태스크 간의 일정을 조정합니다.
 
---- spGetMemberId ---
+---* spGetMemberId *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetMemberId]
@@ -308,7 +308,7 @@ SELECT @result_cd AS result_cd,
 - 다양한 오류 상황을 처리하여 명확한 메시지를 제공
 - 트랜잭션을 통해 데이터 일관성 유지
 
---- spBatchUseLogCleansing ---
+---* spBatchUseLogCleansing *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spBatchUseLogCleansing]
@@ -351,7 +351,7 @@ SELECT @result_cd AS result_cd,
 
 이 프로시저는 일정 기간 동안 사용되지 않은 로그 데이터를 효율적으로 삭제하며, 삭제 결과를 명확히 기록하는 기능을 제공합니다.
 
---- spGetHolidayInfo ---
+---* spGetHolidayInfo *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spGetHolidayInfo
@@ -398,7 +398,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 **주요 기능 요약:**
 - 휴일 정보를 해당 월에 대해 조회하고, 유효하지 않은 매개변수나 날짜 범위를 처리하여 결과를 반환하는 프로시저입니다.
 
---- spGetDeptHierarchy ---
+---* spGetDeptHierarchy *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetDeptHierarchy]
@@ -464,7 +464,7 @@ SELECT @result_cd as result_cd,
        @result_msg as result_msg;
 ```
 
---- spGetDeptMember ---
+---* spGetDeptMember *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저 [dbo].[spGetDeptMember]의 주요 로직 요약
@@ -527,7 +527,7 @@ SELECT @result_cd as result_cd,
 ### 요약
 이 프로시저는 부서 코드를 기준으로 해당 부서에 속한 인원 정보를 조회하는 기능을 수행합니다. 입력된 부서 코드가 유효하지 않거나 누락되면 오류 메시지를 반환하며, 유효한 부서 코드가 입력되면 해당 부서의 인원 정보를 반환합니다.
 
---- spGetCodeMasterForLine ---
+---* spGetCodeMasterForLine *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetCodeMasterForLine]
@@ -566,7 +566,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 라인 코드 검색 기능을 제공하며, 페이지네이션을 통해 대량의 데이터를 효율적으로 처리할 수 있습니다.
 
---- spDeleteOutputForTask ---
+---* spDeleteOutputForTask *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spDeleteOutputForTask]
@@ -616,7 +616,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 특정 태스크에 대한 산출물을 삭제하는 기능을 수행하며, 삭제 후 관련 정보를 로깅합니다.
 
---- spUpdateOutputForTask ---
+---* spUpdateOutputForTask *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spUpdateOutputForTask]
@@ -670,7 +670,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 태스크에 대한 산출물 정보를 안전하게 수정하는 기능을 제공합니다.
 
---- spGetDashBoardDataForMember ---
+---* spGetDashBoardDataForMember *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: spGetDashBoardDataForMember
@@ -712,7 +712,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 회원별 대시보드에 필요한 데이터를 제공하는 역할을 수행합니다.
 
---- spInsertDeptAuth ---
+---* spInsertDeptAuth *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spInsertDeptAuth]
@@ -760,7 +760,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 ### 요약:
 이 프로시저는 부서 코드에 대한 권한을 등록하거나 업데이트하며, 입력된 권한 코드가 유효한지, 부서 코드가 존재하는지 검사하여 오류 메시지를 반환합니다. 성공적으로 권한이 등록되면 결과 메시지를 반환합니다.
 
---- spGetMappingCodeLineToBrand ---
+---* spGetMappingCodeLineToBrand *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: spGetMappingCodeLineToBrand
@@ -814,7 +814,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 입력된 라인 코드와 브랜드 정보에 따라 매핑된 데이터를 조회하고 결과를 반환.
 - 입력값이 유효하지 않을 경우 오류를 반환.
 
---- spInsertMappingCodeLineToBrand ---
+---* spInsertMappingCodeLineToBrand *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spInsertMappingCodeLineToBrand
@@ -858,7 +858,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 성공 시: `@result_cd = 0`, `@result_msg = '성공'`
 - 실패 시: `@result_cd = -1`, `@result_msg = 에러 메시지`
 
---- spDeleteMappingCodeLineToBrand ---
+---* spDeleteMappingCodeLineToBrand *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spDeleteMappingCodeLineToBrand]
@@ -915,7 +915,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 특정 라인 코드와 브랜드 코드의 매핑을 안전하게 삭제하는 기능을 제공합니다.
 
---- sp_upgraddiagrams ---
+---* sp_upgraddiagrams *---
 이 SQL Server 프로시저의 주요 로직을 다음과 같이 요약할 수 있습니다:
 
 ### 프로시저의 주요 목적
@@ -952,7 +952,7 @@ SELECT @result_cd as result_cd,
 - 이 프로시저는 `sysdiagrams` 테이블을 생성하고, `dtproperties` 테이블에서 다이어그램 정보를 읽어 `sysdiagrams` 테이블에 데이터를 삽입하는 과정을 수행합니다.
 - 또한, `sysdiagram_properties` 테이블을 필요 시 생성할 수 있는 로직을 포함하고 있습니다.
 
---- spGetDashBoardDataForAll ---
+---* spGetDashBoardDataForAll *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetDashBoardDataForAll]
@@ -1006,7 +1006,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 오류 처리 및 예외 처리 포함
 - `STRING_AGG`는 SQL Server 2017 이상에서 사용 가능
 
---- sp_helpdiagrams ---
+---* sp_helpdiagrams *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: `dbo.sp_helpdiagrams`
@@ -1062,7 +1062,7 @@ EXEC dbo.sp_helpdiagrams;
 - 권한에 따른 다이어그램 정보 반환
 - 다이어그램 소유자 및 이름 기반 검색 기능
 
---- spGetDashBoardDataForMonthly ---
+---* spGetDashBoardDataForMonthly *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저의 주요 로직 요약
@@ -1119,7 +1119,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이 프로시저는 특정 작업 유형에 대한 월별 프로젝트 현황을 대시보드 형식으로 제공하는 기능을 수행합니다.
 
---- sp_helpdiagramdefinition ---
+---* sp_helpdiagramdefinition *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: `dbo.sp_helpdiagramdefinition`
@@ -1157,7 +1157,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이 프로시저는 데이터베이스 다이어그램에 대한 정보를 안전하게 조회할 수 있도록 설계되었습니다.
 
---- sp_creatediagram ---
+---* sp_creatediagram *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저 `sp_creatediagram`의 주요 로직 요약
@@ -1191,7 +1191,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이 프로시저는 데이터베이스 다이어그램 관리에 필요한 보안 및 데이터 무결성을 보장하는 로직을 포함하고 있습니다.
 
---- sp_renamediagram ---
+---* sp_renamediagram *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저 `sp_renamediagram`의 주요 로직 요약
@@ -1234,7 +1234,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이와 같은 로직을 통해 다이어그램 이름을 안전하게 변경할 수 있습니다.
 
---- sp_alterdiagram ---
+---* sp_alterdiagram *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저 `sp_alterdiagram`의 주요 로직 요약
@@ -1265,7 +1265,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이 프로시저는 다이어그램의 정의를 변경하거나 소유자를 변경하는 작업을 수행하며, 관련된 권한을 관리하는 역할을 합니다.
 
---- spDeleteTemplateProject ---
+---* spDeleteTemplateProject *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다:
 
 ### 프로시저명: [dbo].[spDeleteTemplateProject]
@@ -1298,7 +1298,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 
 이 프로시저는 특정 프로젝트 ID를 비활성화(삭제)하고, 관련 로그를 기록하는 기능을 수행합니다.
 
---- sp_dropdiagram ---
+---* sp_dropdiagram *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: `dbo.sp_dropdiagram`
@@ -1329,7 +1329,7 @@ SELECT @start_month as start_month, @result_cd as result_cd, @result_msg as resu
 EXEC dbo.sp_dropdiagram @diagramname = 'MyDiagram', @owner_id = 1;
 ```
 
---- spGetProjectMember ---
+---* spGetProjectMember *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetProjectMember]
@@ -1372,7 +1372,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - **데이터 일관성**: `project_id`와 `status_cd` 조건을 통해 정확한 데이터를 조회합니다.
 - **유연한 출력**: 결과 코드와 메시지를 출력 파라미터로 반환하여 호출자에게 자세한 정보를 전달합니다.
 
---- spGetMemberInfo ---
+---* spGetMemberInfo *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetMemberInfo]
@@ -1448,7 +1448,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 회원 정보를 안전하고 효율적으로 조회할 수 있도록 설계되었습니다.
 
---- spGetProjectHistory ---
+---* spGetProjectHistory *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spGetProjectHistory
@@ -1480,7 +1480,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 특정 프로젝트의 이력 로그를 페이지 단위로 조회하는 기능을 수행하며, 전체 건수와 페이지 수를 함께 반환합니다.
 
---- spGetCodeMaster ---
+---* spGetCodeMaster *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetCodeMaster]
@@ -1554,7 +1554,7 @@ SELECT
 
 이 프로시저는 대량의 코드마스터 데이터를 효율적으로 검색하고 페이징 처리하는 데 유용하게 사용됩니다.
 
---- spGetDeptCdByName ---
+---* spGetDeptCdByName *---
 ### 프로시저 `spGetDeptCdByName`의 주요 로직 요약
 
 1. **입력 파라미터**
@@ -1593,7 +1593,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 입력된 부서 이름을 기준으로 `dept_master` 테이블에서 일치하는 부서 코드를 검색하고, 성공 시 해당 값을 반환합니다.
 
---- spGetOutputListForTask ---
+---* spGetOutputListForTask *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetOutputListForTask]
@@ -1645,7 +1645,7 @@ SELECT @result_cd AS result_cd,
 - **@result_msg**:
   - 성공 시 '성공', 오류 시 오류 메시지가 반환됨.
 
---- spGetDeptAuth ---
+---* spGetDeptAuth *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetDeptAuth]
@@ -1677,7 +1677,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - `NOLOCK` 힌트를 사용하여 데이터베이스 잠금을 최소화합니다.
 - `fnGetDetailNameByDetailCode` 함수를 통해 권한 코드에 대한 상세 이름을 가져옵니다.
 
---- spGetProjectApplicants ---
+---* spGetProjectApplicants *---
 아래는 주어진 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: spGetProjectApplicants
@@ -1720,7 +1720,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 전체 건수와 페이지 수를 계산하여 반환한다.
 - 오류 처리 및 메시지 반환이 명확하게 이루어져 있다.
 
---- spGetProjectList ---
+---* spGetProjectList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ---
@@ -1774,7 +1774,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 프로젝트 관리를 위한 다양한 조회 조건과 페이징 기능을 제공하는 안정적인 SQL 쿼리입니다.
 
---- spGetProjectOwnerList ---
+---* spGetProjectOwnerList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetProjectOwnerList]
@@ -1824,7 +1824,7 @@ SELECT @result_cd as result_cd,
 ### 주요 목적:
 프로젝트 ID를 입력받아 해당 프로젝트의 담당자 정보를 조회하고, 성공 여부를 반환하는 프로시저입니다.
 
---- spGetProjectProgressRate ---
+---* spGetProjectProgressRate *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetProjectProgressRate]
@@ -1881,7 +1881,7 @@ SELECT @result_cd as result_cd,
 ### 요약
 이 프로시저는 특정 프로젝트 ID에 대한 프로젝트 공정률 (계획 및 실제)을 계산하고, 작업 지연 현황 및 지연 일수 등을 반환합니다. 또한, 유효하지 않은 프로젝트 ID가 입력되거나 오류가 발생할 경우 적절한 오류 메시지를 반환합니다.
 
---- spGetProjectTemplateList ---
+---* spGetProjectTemplateList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetProjectTemplateList]
@@ -1927,7 +1927,7 @@ SELECT @result_cd as result_cd,
 - 프로젝트 템플릿 목록을 페이지 단위로 조회하고, 전체 레코드 수와 페이지 수를 반환합니다.
 - `@pProject_name` 필터링 조건을 통해 특정 프로젝트 이름을 포함하는 레코드만 조회할 수 있습니다.
 
---- spGetTaskInfoDetail ---
+---* spGetTaskInfoDetail *---
 이 SQL 프로시저의 주요 로직을 요약하면 다음과 같습니다:
 
 1. 입력된 태스크 ID(@pTask_id)에 대한 상세 정보를 조회합니다.
@@ -1940,7 +1940,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 태스크의 상세 정보를 포함한 지연 이력 정보를 반환하는 데 중점을 두고 있습니다.
 
---- spGetTaskList ---
+---* spGetTaskList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저의 주요 목적
@@ -1987,7 +1987,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 프로젝트 관리 시스템에서 프로젝트별 태스크 정보를 포함한 상세한 태스크 리스트를 제공하는 데 사용됩니다.
 
---- spGetTaskOwnerList ---
+---* spGetTaskOwnerList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: spGetTaskOwnerList
@@ -2045,7 +2045,7 @@ SELECT @result_cd AS result_cd,
 - 성공 시: `@result_cd = 0`, `@result_msg = '성공'`
 - 실패 시: `@result_cd = 1` 또는 `-1`, `@result_msg`에 오류 메시지 반환
 
---- spInsertCodeMaster ---
+---* spInsertCodeMaster *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spInsertCodeMaster]
@@ -2113,7 +2113,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 코드 마스터값을 추가하는 기능을 제공하며, 다양한 유효성 검사를 통해 데이터 무결성을 유지합니다.
 
---- spInsertOutputForTask ---
+---* spInsertOutputForTask *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spInsertOutputForTask]
@@ -2175,7 +2175,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 오류 처리 및 로깅 기능
 - 출력값을 통한 결과 반환
 
---- spGetAccessStateForUser ---
+---* spGetAccessStateForUser *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spGetAccessStateForUser]
@@ -2225,7 +2225,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 회원의 접근 상태를 제어하기 위한 로직을 포함하고 있으며, 주로 회원 ID가 유효한지 확인하고 해당 회원의 접근 권한을 검사하는 데 사용됩니다.
 
---- spInsertProjectInfo ---
+---* spInsertProjectInfo *---
 다음은 SQL 프로시저 `spInsertProjectInfo`의 주요 로직을 정리한 것입니다:
 
 ### 1. **입력값 유효성 검증**
@@ -2267,7 +2267,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 프로젝트 생성 시 필요한 모든 정보를 검증하고 적절히 저장하는 역할을 수행합니다.
 
---- spUpdateAccessStateForUser ---
+---* spUpdateAccessStateForUser *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spUpdateAccessStateForUser
@@ -2306,7 +2306,7 @@ SELECT @result_cd as result_cd,
 
 이 프로시저는 회원의 로그인 접근 상태를 안전하고 체계적으로 관리하기 위한 목적으로 작성되었습니다.
 
---- spInsertProjectMember ---
+---* spInsertProjectMember *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: spInsertProjectMember
@@ -2377,7 +2377,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 ### 주요 기능 요약:
 프로젝트 멤버의 참여 신청을 처리하며, 프로젝트 및 멤버의 유효성을 검사한 후 결과를 반환합니다.
 
---- spInsertProjectOwner ---
+---* spInsertProjectOwner *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spInsertProjectOwner]
@@ -2462,7 +2462,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 중복 제거 및 데이터 정합성 유지
 - 프로시저 실행 로깅
 
---- spGenerateProjectId ---
+---* spGenerateProjectId *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저의 주요 로직 요약
@@ -2492,7 +2492,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 프로젝트 ID를 체계적으로 관리하기 위한 로직을 제공하며, 고유성과 연속성을 유지하도록 설계되었습니다.
 
---- spInsertProjectTask ---
+---* spInsertProjectTask *---
 다음은 주어진 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: spInsertProjectTask
@@ -2574,7 +2574,7 @@ SELECT @task_id as task_id, @result_cd as result_cd, @result_msg as result_msg;
 - 오류 발생 시 롤백 수행
 - 모든 작업 결과에 대한 로깅
 
---- spInsertTaskOwner ---
+---* spInsertTaskOwner *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spInsertTaskOwner]
@@ -2632,7 +2632,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 유효성 검사를 통한 오류 방지
 - 트랜잭션을 통한 데이터 안정성 유지
 
---- spIsAccsProject ---
+---* spIsAccsProject *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spIsAccsProject]
@@ -2681,7 +2681,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 특정 프로젝트에 대한 회원의 접근 권한을 확인하여, 권한이 있는 경우 해당 정보를 반환합니다.
 
---- spMakeTaskFinishPlanDate ---
+---* spMakeTaskFinishPlanDate *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저의 주요 목적
@@ -2726,7 +2726,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 ### 요약
 이 프로시저는 프로젝트 ID를 입력받아 해당 프로젝트의 작업 완료 계획을 계산하고 업데이트하는 과정을 수행합니다. 최상위 노드부터 하위 노드까지 순차적으로 처리하며, 각 작업의 시작 및 종료 날짜를 의존성 관계를 고려하여 자동으로 계산합니다.
 
---- spDeleteTasks ---
+---* spDeleteTasks *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spDeleteTasks
@@ -2777,7 +2777,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 삭제하려는 태스크가 1단계 태스크인 경우, 해당 태스크를 비활성화하고 관련 의존성을 조정하는 방식으로 삭제를 처리합니다.
 
---- spUpdateProjectMembers ---
+---* spUpdateProjectMembers *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spUpdateProjectMembers
@@ -2828,7 +2828,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 프로젝트 멤버의 상태를 일괄적으로 변경하거나 새로운 멤버를 추가하는 기능을 수행하며, 트랜잭션을 통해 데이터의 일관성과 안정성을 유지합니다.
 
---- spUpdateCodeMaster ---
+---* spUpdateCodeMaster *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spUpdateCodeMaster]
@@ -2883,7 +2883,7 @@ SELECT @result_cd AS result_cd,
 
 이 프로시저는 코드 마스터 테이블에서 특정 조건에 따라 데이터를 업데이트하고, 결과에 따라 적절한 메시지를 반환하는 역할을 합니다.
 
---- spUpdateProjectOwners ---
+---* spUpdateProjectOwners *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spUpdateProjectOwners]
@@ -2929,7 +2929,7 @@ SELECT @result_cd AS result_cd,
 **결론:**
 이 프로시저는 특정 프로젝트의 마케터를 변경하는 데 필요한 모든 검증과 데이터를 처리하는 로직을 포함하고 있습니다.
 
---- spUpdateForcedFinishForProject ---
+---* spUpdateForcedFinishForProject *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 것입니다.
 
 ### 프로시저명: [dbo].[spUpdateForcedFinishForProject]
@@ -2978,7 +2978,7 @@ SELECT @result_cd AS result_cd, @result_msg AS result_msg;
 
 이 프로시저는 프로젝트의 강제 종료 처리를 수행하며, 통계 제외 여부와 종료 사유 등을 설정할 수 있습니다.
 
---- spGetDelayedTaskList ---
+---* spGetDelayedTaskList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spGetDelayedTaskList
@@ -3022,7 +3022,7 @@ SELECT @result_cd AS result_cd, @result_msg AS result_msg;
 #### 주요 활용:
 - 프로젝트 관리 시스템에서 태스크 지연을 모니터링하고, 지연된 태스크를 조회할 때 사용
 
---- spUpdateProjectApplicantsStatus ---
+---* spUpdateProjectApplicantsStatus *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: spUpdateProjectApplicantsStatus
@@ -3070,7 +3070,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 유효하지 않은 프로젝트나 회원일 경우 오류 처리
 - 트랜잭션을 이용한 데이터 일관성 유지
 
---- spGetDelayedStartTaskList ---
+---* spGetDelayedStartTaskList *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: spGetDelayedStartTaskList
@@ -3123,7 +3123,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 태스크 및 프로젝트 소유자 정보를 함께 조회하여 알림 전송용으로 사용.
 - 결과 코드와 메시지를 출력 파라미터로 반환하여 성공/실패 결과를 전달.
 
---- spUpdateTask ---
+---* spUpdateTask *---
 이 SQL 프로시저의 주요 로직을 요약하면 다음과 같습니다:
 
 ### 1. **매개변수 처리**
@@ -3165,7 +3165,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 태스크 관리 시스템에서 태스크의 기본적인 CRUD 기능을 제공하며, 데이터의 정합성과 무결성을 유지하기 위한 다양한 검증 절차를 포함하고 있습니다.
 
---- spUpdateTaskPlanDate ---
+---* spUpdateTaskPlanDate *---
 다음은 요청된 SQL 프로시저 코드의 주요 로직을 정리한 것입니다:
 
 ### 프로시저명: spUpdateTaskPlanDate
@@ -3209,7 +3209,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - **상위-하위 일정 동기화**: 상위 일정의 변경이 하위 일정에 미치는 영향을 고려한 설계
 - **디펜던시 태스크 조정**: 일정 변경이 디펜던시 태스크에 미치는 영향을 고려한 추가적인 로직 처리
 
---- spUpdateTaskState ---
+---* spUpdateTaskState *---
 이 SQL 프로시저의 주요 로직을 요약하면 다음과 같습니다:
 
 1. **파라미터 검증**
@@ -3243,7 +3243,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 태스크의 착수 및 완료 상태를 관리하고, 이에 따른 일정 업데이트를 수행하는 역할을 합니다.
 
---- spUpdateProjectKickOff ---
+---* spUpdateProjectKickOff *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다:
 
 ### 프로시저명: [dbo].[spUpdateProjectKickOff]
@@ -3289,7 +3289,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 - 프로젝트 킥오프 상태 업데이트
 - 트랜잭션 기반의 안정적인 데이터 처리
 
---- spUpdateTaskActualDate ---
+---* spUpdateTaskActualDate *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저의 주요 목적
@@ -3331,7 +3331,7 @@ SELECT @result_cd as result_cd, @result_msg as result_msg;
 
 이 프로시저는 특정 프로젝트 ID에 대한 전체 1뎁스의 실제 일정을 재계산하는 과정을 수행합니다.
 
---- spGetCodeMasterForBrand ---
+---* spGetCodeMasterForBrand *---
 아래는 요청하신 SQL 프로시저 코드의 주요 로직을 정리한 내용입니다.
 
 ### 프로시저명: [dbo].[spGetCodeMasterForBrand]
