@@ -143,187 +143,212 @@ async function generateTableAnalysisHTML(tableName?: string): Promise<string> {
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: #f5f5f5;
-            color: #333;
+            padding: 0;
+            background: #ffffff;
+            color: #2c3e50;
+            line-height: 1.6;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #ffffff;
+            box-shadow: none;
             overflow: hidden;
         }
         .header {
-            background: #007acc;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 25px 30px;
+            border-bottom: 3px solid #3498db;
         }
         .header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
         .content {
-            padding: 20px;
+            padding: 30px;
+            background: #fafbfc;
         }
         .table-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
         .table-card {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 15px;
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            padding: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
+            transition: all 0.15s ease;
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .table-card:hover {
-            border-color: #007acc;
-            background: #e3f2fd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+            border-color: #3498db;
+            background: #f8f9fa;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.12);
         }
         .table-card.selected {
-            border-color: #007acc;
-            background: #e3f2fd;
+            border-color: #3498db;
+            background: #f8f9fa;
+            box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
         }
         .table-name {
-            font-weight: bold;
+            font-weight: 600;
             font-size: 16px;
-            color: #007acc;
+            color: #2c3e50;
             margin-bottom: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
         }
         .procedure-count {
-            font-size: 14px;
-            color: #666;
+            font-size: 13px;
+            color: #7f8c8d;
+            font-weight: 500;
         }
         .analysis-content {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .analysis-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #007acc;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #007acc;
-            padding-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 12px;
         }
         .procedure-analysis {
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
+            background: #ffffff;
+            border: 1px solid #ecf0f1;
+            border-radius: 4px;
+            padding: 18px;
+            margin-bottom: 18px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .procedure-analysis:hover {
-            border-color: #007acc;
+            border-color: #bdc3c7;
             background: #f8f9fa;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,123,255,0.1);
+            transform: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
         .procedure-name {
-            font-weight: bold;
-            color: #495057;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
         }
         .procedure-name .expand-icon {
-            font-size: 12px;
-            color: #007acc;
+            font-size: 10px;
+            color: #7f8c8d;
             transition: transform 0.2s ease;
+            font-weight: bold;
         }
         .procedure-name.expanded .expand-icon {
             transform: rotate(90deg);
         }
         .analysis-text {
-            line-height: 1.6;
-            color: #333;
+            line-height: 1.7;
+            color: #2c3e50;
             white-space: pre-wrap;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
         }
         .analysis-text.expanded {
             max-height: 1000px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #e9ecef;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
         }
         .procedure-summary {
-            color: #666;
-            font-style: italic;
-            font-size: 14px;
+            color: #7f8c8d;
+            font-size: 13px;
+            line-height: 1.5;
         }
         .no-data {
             text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 40px;
+            color: #95a5a6;
+            padding: 50px;
+            font-size: 15px;
         }
         .refresh-btn {
-            background: #007acc;
+            background: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-            margin-bottom: 20px;
+            font-weight: 500;
+            margin-bottom: 25px;
+            transition: background-color 0.15s ease;
         }
         .refresh-btn:hover {
-            background: #005a9e;
+            background: #2980b9;
         }
         .search-box {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            padding: 12px 16px;
+            border: 1px solid #d5dbdb;
+            border-radius: 4px;
+            margin-bottom: 25px;
             font-size: 14px;
+            transition: border-color 0.15s ease;
+            box-sizing: border-box;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
         }
         .mermaid-section {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .mermaid-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #007acc;
-            margin-bottom: 15px;
-            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: left;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
         .mermaid-container {
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #ecf0f1;
+            border-radius: 4px;
+            padding: 20px;
             overflow-x: auto;
         }
         .mermaid-placeholder {
             text-align: center;
-            color: #666;
-            font-style: italic;
+            color: #95a5a6;
             padding: 40px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -337,13 +362,13 @@ async function generateTableAnalysisHTML(tableName?: string): Promise<string> {
             
             <!-- Mermaid ERD 섹션 -->
             <div class="mermaid-section">
-                <div class="mermaid-title">📊 데이터베이스 ERD (Entity Relationship Diagram)</div>
+                <div class="mermaid-title"> 데이터베이스 ERD (Entity Relationship Diagram)</div>
                 <div class="mermaid-container" id="mermaidContainer">
                     ${mermaidContent ? `<pre class="mermaid">${mermaidContent}</pre>` : '<div class="mermaid-placeholder">Mermaid ERD 파일이 없습니다.<br>generateTableMermaid 명령을 먼저 실행해주세요.</div>'}
                 </div>
             </div>
             
-            <input type="text" class="search-box" placeholder="테이블명으로 검색..." onkeyup="filterTables(this.value)">
+            <!-- <input type="text" class="search-box" placeholder="테이블명으로 검색..." onkeyup="filterTables(this.value)"> -->
             
             <div class="table-list" id="tableList">
                 ${generateTableCards(tableProcedureMap)}
@@ -422,7 +447,7 @@ async function generateTableAnalysisHTML(tableName?: string): Promise<string> {
                         detailsHtml += \`
                             <div class="procedure-analysis" onclick="toggleProcedureAnalysis('\${procName}')">
                                 <div class="procedure-name" id="proc-name-\${procName.replace(/[^a-zA-Z0-9]/g, '_')}">
-                                    🔧 \${procName}
+                                     \${procName}
                                     <span class="expand-icon">▶</span>
                                 </div>
                                 <div class="procedure-summary">\${summary}</div>
@@ -434,7 +459,7 @@ async function generateTableAnalysisHTML(tableName?: string): Promise<string> {
                         detailsHtml += \`
                             <div class="procedure-analysis">
                                 <div class="procedure-name">
-                                    🔧 \${procName}
+                                     \${procName}
                                 </div>
                                 <div class="procedure-summary">
                                     분석 내용이 없습니다. (매핑 실패)
