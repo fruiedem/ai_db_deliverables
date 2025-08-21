@@ -1745,11 +1745,14 @@ async function cleanMermaidFile(filePath, outputChannel) {
         cleanedContent = cleanedContent.replace(/erDiagram\s*\n\s*/g, '');
         // 2. <스키마명>.<테이블명> { 포맷에서 '<스키마명>.' 제거
         cleanedContent = cleanedContent.replace(/(\w+)\.(\w+)\s*\{/g, '$2 {');
+        // 3. 맨 위 상단에 'erDiagram' 추가
+        cleanedContent = 'erDiagram\n' + cleanedContent;
         // 정리된 내용을 파일에 다시 쓰기
         fs.writeFileSync(filePath, cleanedContent, 'utf8');
         outputChannel.appendLine('✓ Mermaid file cleaned successfully');
         outputChannel.appendLine('  - Removed all "erDiagram" text');
         outputChannel.appendLine('  - Removed schema prefixes from table names');
+        outputChannel.appendLine('  - Added single "erDiagram" at the top');
     }
     catch (error) {
         console.error('Error cleaning mermaid file:', error);

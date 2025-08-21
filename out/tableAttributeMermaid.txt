@@ -1,3 +1,5 @@
+    erDiagram
+    
     IF_SAP_NPD_BRAND {
         BRANDCODE nvarchar PK
         BRANDNAME nvarchar PK
