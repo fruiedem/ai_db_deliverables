@@ -1836,25 +1836,25 @@ export function activate(context: vscode.ExtensionContext) {
         // 파일 내용 읽기
         const fileContent = fs.readFileSync(tableAttributesPath, 'utf8');
         
-        // 테이블별로 정보 파싱
+        // 테이블별로 정보 파싱 (새로운 포맷: --- Table)
         const tables: { schema: string; name: string; columns: any[] }[] = [];
         const lines = fileContent.split('\n');
         let currentTable: { schema: string; name: string; columns: any[] } | null = null;
         let isReadingColumns = false;
         
         for (const line of lines) {
-          if (line.startsWith('--- Schema:')) {
+          if (line.startsWith('--- Table')) {
             // 이전 테이블 정보 저장
             if (currentTable && currentTable.columns.length > 0) {
               tables.push(currentTable);
             }
             
-            // 새 테이블 시작
-            const match = line.match(/--- Schema: ([^,]+), Table: ([^(]+) \((\d+) columns\) ---/);
+            // 새 테이블 시작 (새로운 포맷: --- Table)
+            const match = line.match(/--- Table: ([^(]+) \((\d+) columns\) ---/);
             if (match) {
               currentTable = {
-                schema: match[1].trim(),
-                name: match[2].trim(),
+                schema: 'dbo', // 기본 스키마로 설정 (필요시 수정 가능)
+                name: match[1].trim(),
                 columns: []
               };
               isReadingColumns = false;
