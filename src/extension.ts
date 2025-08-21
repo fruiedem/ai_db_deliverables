@@ -1071,8 +1071,8 @@ export function activate(context: vscode.ExtensionContext) {
               const columns = tableGroups.get(tableKey)!;
               const [schemaName, tableName] = tableKey.split('.');
               
-              outputChannel.appendLine(`\n--- Schema: ${schemaName}, Table: ${tableName} (${columns.length} columns) ---`);
-              fileContent.push(`\n--- Schema: ${schemaName}, Table: ${tableName} (${columns.length} columns) ---`);
+              outputChannel.appendLine(`\n--- Table: ${tableName} (${columns.length} columns) ---`);
+              fileContent.push(`\n--- Table: ${tableName} (${columns.length} columns) ---`);
               
               // 컬럼별로 정렬하여 출력
               const sortedColumns = columns.sort((a: any, b: any) => a.column_id - b.column_id);
