@@ -16,8 +16,8 @@ erDiagram
 
 erDiagram
     dbo.VW_NPD_HolidayCalendar {
-        HOLIDAY_DATE   varchar
-        HOLIDAY_NAME   varchar
+        HOLIDAY_DATE varchar PK
+        HOLIDAY_NAME varchar
     }
 
 erDiagram
@@ -37,7 +37,7 @@ erDiagram
     dbo.VW_NPD_orgDeptMaster {
         DEPT_CODE      varchar      PK
         DEPT_NAME      varchar
-        PARENT_DEPT_CODE varchar      FK[dbo.VW_NPD_orgDeptMaster.DEPT_CODE]
+        PARENT_DEPT_CODE varchar      FK
     }
 
 erDiagram
@@ -65,13 +65,13 @@ erDiagram
     }
 
 erDiagram
-    dbo.dept_auth {
-        dept_cd varchar PK
-        dept_auth_cd varchar
-        creator_id varchar
-        created_at datetime
-        modifier_id varchar
-        modified_at datetime
+    TABLE dbo.dept_auth {
+        dept_cd VARCHAR PK
+        dept_auth_cd VARCHAR
+        creator_id VARCHAR
+        created_at DATETIME
+        modifier_id VARCHAR
+        modified_at DATETIME
     }
 
 erDiagram
@@ -161,7 +161,6 @@ erDiagram
     }
 
 erDiagram
-    @.@ as dbo.project_seq
     dbo.project_seq {
         yymm char PK
         last_seq int
@@ -185,18 +184,18 @@ erDiagram
     }
 
 erDiagram
-    TABLE dbo.task {
-        task_id INT PK
-        task_name VARCHAR
-        project_id INT
-        order_no FLOAT
-        status_cd VARCHAR
-        is_active_cd VARCHAR
-        is_output_need VARCHAR
-        creator_id VARCHAR
-        created_at DATETIME
-        modifier_id VARCHAR
-        modified_at DATETIME
+    dbo.task {
+        task_id int PK
+        task_name varchar
+        project_id int FK
+        order_no float
+        status_cd varchar
+        is_active_cd varchar
+        is_output_need varchar
+        creator_id varchar
+        created_at datetime
+        modifier_id varchar
+        modified_at datetime
     }
 
 erDiagram
@@ -256,17 +255,17 @@ erDiagram
 
 erDiagram
     dbo.use_email_log {
-        int id PK
-        nvarchar sender_address
-        nvarchar receiver_address_list
-        nvarchar cc_address_list
-        nvarchar bcc_address_list
-        nvarchar subject
-        nvarchar template_type
-        bit is_use_html
-        varchar status
-        nvarchar error_message
-        datetime2 sent_at
+        id int PK
+        sender_address nvarchar
+        receiver_address_list nvarchar
+        cc_address_list nvarchar
+        bcc_address_list nvarchar
+        subject nvarchar
+        template_type nvarchar
+        is_use_html bit
+        status varchar
+        error_message nvarchar
+        sent_at datetime2
     }
 
 erDiagram
@@ -294,109 +293,3 @@ erDiagram
         varchar session_id
         datetime2 log_date
     }
-
-=== Integrated Mermaid ERD ===
-All tables combined:
-```mermaid
-erDiagram
-    IF_SAP_NPD_BRAND {
-        string tableName
-        string schemaName
-    }
-    VW_NPD_HolidayCalendar {
-        string tableName
-        string schemaName
-    }
-    VW_NPD_hreMaster {
-        string tableName
-        string schemaName
-    }
-    VW_NPD_orgDeptMaster {
-        string tableName
-        string schemaName
-    }
-    calendar {
-        string tableName
-        string schemaName
-    }
-    code_master {
-        string tableName
-        string schemaName
-    }
-    dept_auth {
-        string tableName
-        string schemaName
-    }
-    dept_master {
-        string tableName
-        string schemaName
-    }
-    hr_master {
-        string tableName
-        string schemaName
-    }
-    login_control {
-        string tableName
-        string schemaName
-    }
-    mapper_line_brand {
-        string tableName
-        string schemaName
-    }
-    project {
-        string tableName
-        string schemaName
-    }
-    project_member {
-        string tableName
-        string schemaName
-    }
-    project_owner {
-        string tableName
-        string schemaName
-    }
-    project_seq {
-        string tableName
-        string schemaName
-    }
-    shedlock {
-        string tableName
-        string schemaName
-    }
-    sysdiagrams {
-        string tableName
-        string schemaName
-    }
-    task {
-        string tableName
-        string schemaName
-    }
-    task_dependency {
-        string tableName
-        string schemaName
-    }
-    task_finish_plan {
-        string tableName
-        string schemaName
-    }
-    task_output {
-        string tableName
-        string schemaName
-    }
-    task_owner {
-        string tableName
-        string schemaName
-    }
-    use_email_log {
-        string tableName
-        string schemaName
-    }
-    use_log {
-        string tableName
-        string schemaName
-    }
-    use_privacy_log {
-        string tableName
-        string schemaName
-    }
-```
