@@ -90,14 +90,17 @@ async function showTableAnalysisWebview(tableName) {
 // 테이블 분석 HTML 생성 함수
 async function generateTableAnalysisHTML(tableName) {
     try {
-        // spTable.txt와 spAIAnalysis.txt 파일 읽기
+        // spTable.txt, spAIAnalysis.txt, tableAttributeMermaid.txt 파일 읽기
         const spTablePath = path.join(__dirname, '..', 'out', 'spTable.txt');
         const spAIAnalysisPath = path.join(__dirname, '..', 'out', 'spAIAnalysis.txt');
+        const mermaidPath = path.join(__dirname, '..', 'out', 'tableAttributeMermaid.txt');
         console.log('=== 웹뷰 HTML 생성 시작 ===');
         console.log('spTablePath:', spTablePath);
         console.log('spAIAnalysisPath:', spAIAnalysisPath);
+        console.log('mermaidPath:', mermaidPath);
         let spTableContent = '';
         let spAIAnalysisContent = '';
+        let mermaidContent = '';
         if (fs.existsSync(spTablePath)) {
             spTableContent = fs.readFileSync(spTablePath, 'utf8');
             console.log(`spTable.txt 파일 읽기 성공: ${spTableContent.length} 문자`);
@@ -111,6 +114,13 @@ async function generateTableAnalysisHTML(tableName) {
         }
         else {
             console.error('spAIAnalysis.txt 파일을 찾을 수 없습니다:', spAIAnalysisPath);
+        }
+        if (fs.existsSync(mermaidPath)) {
+            mermaidContent = fs.readFileSync(mermaidPath, 'utf8');
+            console.log(`tableAttributeMermaid.txt 파일 읽기 성공: ${mermaidContent.length} 문자`);
+        }
+        else {
+            console.log('tableAttributeMermaid.txt 파일을 찾을 수 없습니다. Mermaid ERD는 표시되지 않습니다.');
         }
         // 테이블별 저장 프로시저 매핑 파싱
         console.log('=== 파싱 시작 ===');
@@ -137,6 +147,7 @@ async function generateTableAnalysisHTML(tableName) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>테이블 분석 결과</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -294,6 +305,33 @@ async function generateTableAnalysisHTML(tableName) {
             margin-bottom: 20px;
             font-size: 14px;
         }
+        .mermaid-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .mermaid-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007acc;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .mermaid-container {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        .mermaid-placeholder {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
     </style>
 </head>
 <body>
@@ -303,6 +341,15 @@ async function generateTableAnalysisHTML(tableName) {
         </div>
         <div class="content">
             <button class="refresh-btn" onclick="refreshData()"> 새로고침</button>
+            
+            <!-- Mermaid ERD 섹션 -->
+            <div class="mermaid-section">
+                <div class="mermaid-title">📊 데이터베이스 ERD (Entity Relationship Diagram)</div>
+                <div class="mermaid-container" id="mermaidContainer">
+                    ${mermaidContent ? `<pre class="mermaid">${mermaidContent}</pre>` : '<div class="mermaid-placeholder">Mermaid ERD 파일이 없습니다.<br>generateTableMermaid 명령을 먼저 실행해주세요.</div>'}
+                </div>
+            </div>
+            
             <input type="text" class="search-box" placeholder="테이블명으로 검색..." onkeyup="filterTables(this.value)">
             
             <div class="table-list" id="tableList">
@@ -325,6 +372,29 @@ async function generateTableAnalysisHTML(tableName) {
         console.log('테이블-프로시저 매핑:', tableProcedureMap);
         console.log('프로시저 분석 매핑:', procedureAnalysisMap);
         console.log('파싱된 프로시저 개수:', Object.keys(procedureAnalysisMap).length);
+        
+        // Mermaid 초기화 및 렌더링
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true
+                }
+            });
+            
+            // 페이지 로드 후 mermaid 렌더링
+            document.addEventListener('DOMContentLoaded', function() {
+                const mermaidElements = document.querySelectorAll('.mermaid');
+                if (mermaidElements.length > 0) {
+                    console.log('Mermaid 요소 렌더링 시작...');
+                    mermaid.run();
+                }
+            });
+        } else {
+            console.error('Mermaid 라이브러리를 로드할 수 없습니다.');
+        }
         
         function showTableAnalysis(tableName) {
             // 모든 테이블 카드에서 선택 상태 제거
@@ -412,6 +482,17 @@ async function generateTableAnalysisHTML(tableName) {
         
         function refreshData() {
             vscode.postMessage({ command: 'refresh' });
+        }
+        
+        // Mermaid 재렌더링 함수
+        function reRenderMermaid() {
+            if (typeof mermaid !== 'undefined') {
+                const mermaidElements = document.querySelectorAll('.mermaid');
+                if (mermaidElements.length > 0) {
+                    console.log('Mermaid 요소 재렌더링 시작...');
+                    mermaid.run();
+                }
+            }
         }
         
         function toggleProcedureAnalysis(procName) {
@@ -1653,6 +1734,28 @@ async function analyzeTableAttributes() {
         }
     }
 }
+// Mermaid 파일 정리 함수
+async function cleanMermaidFile(filePath, outputChannel) {
+    try {
+        outputChannel.appendLine('=== Cleaning Mermaid File ===');
+        // 파일 읽기
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        let cleanedContent = fileContent;
+        // 1. 모든 'erDiagram' 텍스트 제거
+        cleanedContent = cleanedContent.replace(/erDiagram\s*\n\s*/g, '');
+        // 2. <스키마명>.<테이블명> { 포맷에서 '<스키마명>.' 제거
+        cleanedContent = cleanedContent.replace(/(\w+)\.(\w+)\s*\{/g, '$2 {');
+        // 정리된 내용을 파일에 다시 쓰기
+        fs.writeFileSync(filePath, cleanedContent, 'utf8');
+        outputChannel.appendLine('✓ Mermaid file cleaned successfully');
+        outputChannel.appendLine('  - Removed all "erDiagram" text');
+        outputChannel.appendLine('  - Removed schema prefixes from table names');
+    }
+    catch (error) {
+        console.error('Error cleaning mermaid file:', error);
+        outputChannel.appendLine(`✗ Error cleaning mermaid file: ${error}`);
+    }
+}
 // tableAttributes.txt를 읽어서 AI API에 mermaid 코드 생성 요청하는 함수
 async function generateTableMermaidWithAI() {
     try {
@@ -1817,6 +1920,8 @@ ${table.columns.map(col => `- ${col.name}: ${col.dataType}${col.keyType ? ` (${c
                 // mermaidContent.push('erDiagram');
                 // 파일에 내용 쓰기
                 fs.writeFileSync(mermaidFilePath, mermaidContent.join('\n'), 'utf8');
+                // 파일 정리 함수 호출
+                await cleanMermaidFile(mermaidFilePath, outputChannel);
                 outputChannel.appendLine(`=== Mermaid Generation Complete ===`);
                 outputChannel.appendLine(`Mermaid codes saved to: ${mermaidFilePath}`);
                 outputChannel.appendLine(`Total tables processed: ${mermaidResults.length}`);

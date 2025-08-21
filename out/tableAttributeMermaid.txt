@@ -1,5 +1,4 @@
-erDiagram
-    dbo.IF_SAP_NPD_BRAND {
+    IF_SAP_NPD_BRAND {
         BRANDCODE nvarchar PK
         BRANDNAME nvarchar PK
         BRANDTYPE nvarchar
@@ -14,14 +13,12 @@ erDiagram
         INTERFACETYPE nvarchar
     }
 
-erDiagram
-    dbo.VW_NPD_HolidayCalendar {
+    VW_NPD_HolidayCalendar {
         HOLIDAY_DATE varchar PK
         HOLIDAY_NAME varchar
     }
 
-erDiagram
-    dbo.VW_NPD_hreMaster {
+    VW_NPD_hreMaster {
         EMP_ID varchar PK
         NAME varchar
         MOIN_ID varchar
@@ -33,15 +30,13 @@ erDiagram
         JOB_DUTY_NM varchar
     }
 
-erDiagram
-    dbo.VW_NPD_orgDeptMaster {
+    VW_NPD_orgDeptMaster {
         DEPT_CODE      varchar      PK
         DEPT_NAME      varchar
         PARENT_DEPT_CODE varchar      FK
     }
 
-erDiagram
-    dbo.calendar {
+    calendar {
         target_dt varchar PK
         date_description varchar
         creator_id varchar
@@ -50,8 +45,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.code_master {
+    code_master {
         master_id int PK
         group_cd varchar
         group_name varchar
@@ -64,8 +58,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    TABLE dbo.dept_auth {
+    TABLE dept_auth {
         dept_cd VARCHAR PK
         dept_auth_cd VARCHAR
         creator_id VARCHAR
@@ -74,8 +67,7 @@ erDiagram
         modified_at DATETIME
     }
 
-erDiagram
-    dbo.dept_master {
+    dept_master {
         DEPT_CODE      varchar PK
         DEPT_NAME      varchar
         PARENT_DEPT_CODE varchar FK
@@ -83,8 +75,7 @@ erDiagram
         created_at     datetime
     }
 
-erDiagram
-    dbo.hr_master {
+    hr_master {
         EMP_ID varchar PK
         NAME varchar
         MOIN_ID varchar
@@ -99,8 +90,7 @@ erDiagram
         created_at datetime
     }
 
-erDiagram
-    dbo.login_control {
+    login_control {
         member_id varchar PK
         access_yn char
         creator_id varchar
@@ -109,14 +99,12 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.mapper_line_brand {
+    mapper_line_brand {
         line_cd varchar PK
         brand_cd nvarchar PK
     }
 
-erDiagram
-    dbo.project {
+    project {
         project_id int PK
         project_type_cd varchar
         line_type_cd varchar
@@ -138,8 +126,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.project_member {
+    project_member {
         int project_id PK
         varchar member_id PK
         varchar status_cd
@@ -149,8 +136,7 @@ erDiagram
         datetime modified_at
     }
 
-erDiagram
-    dbo.project_owner {
+    project_owner {
         project_id int PK
         member_id varchar PK
         is_active_cd varchar
@@ -160,22 +146,19 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.project_seq {
+    project_seq {
         yymm char PK
         last_seq int
     }
 
-erDiagram
-    dbo.shedlock {
+    shedlock {
         varchar name PK
         datetime2 lock_until
         datetime2 locked_at
         varchar locked_by FK
     }
 
-erDiagram
-    TABLE dbo.sysdiagrams {
+    TABLE sysdiagrams {
         sysname name
         int principal_id
         int diagram_id PK
@@ -183,8 +166,7 @@ erDiagram
         varbinary definition
     }
 
-erDiagram
-    dbo.task {
+    task {
         task_id int PK
         task_name varchar
         project_id int FK
@@ -198,8 +180,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.task_dependency {
+    task_dependency {
         int task_id PK
         int project_id FK
         int dependency_id FK
@@ -210,8 +191,7 @@ erDiagram
         datetime modified_at
     }
 
-erDiagram
-    dbo.task_finish_plan {
+    task_finish_plan {
         finish_plan_id int PK
         project_id int
         task_id int
@@ -227,8 +207,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.task_output {
+    task_output {
         output_id int PK
         task_id int
         project_id int
@@ -242,8 +221,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.task_owner {
+    task_owner {
         task_id int PK
         member_id varchar PK
         is_active_cd varchar
@@ -253,8 +231,7 @@ erDiagram
         modified_at datetime
     }
 
-erDiagram
-    dbo.use_email_log {
+    use_email_log {
         id int PK
         sender_address nvarchar
         receiver_address_list nvarchar
@@ -268,8 +245,7 @@ erDiagram
         sent_at datetime2
     }
 
-erDiagram
-    dbo.use_log {
+    use_log {
         log_id bigint PK
         caller_id varchar
         severity int
@@ -283,8 +259,7 @@ erDiagram
         created_at datetime
     }
 
-erDiagram
-    dbo.use_privacy_log {
+    use_privacy_log {
         bigint privacy_logging_id PK
         varchar emp_id
         varchar client_ip
